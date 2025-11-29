@@ -32,6 +32,7 @@ class $modify(ClipboardCCTextInputNode, CCTextInputNode) {
 
             auto copyBtnSprite = CCSprite::createWithSpriteFrameName("copy.png"_spr);
             copyBtnSprite->setScale(0.325f);
+            copyBtnSprite->setOpacity(50);
 
             auto copyBtn = CCMenuItemSpriteExtra::create(
                 copyBtnSprite,
@@ -44,6 +45,7 @@ class $modify(ClipboardCCTextInputNode, CCTextInputNode) {
 
             auto pasteBtnSprite = CCSprite::createWithSpriteFrameName("paste.png"_spr);
             pasteBtnSprite->setScale(0.325f);
+            pasteBtnSprite->setOpacity(50);
 
             auto pasteBtn = CCMenuItemSpriteExtra::create(
                 pasteBtnSprite,
@@ -70,16 +72,7 @@ class $modify(ClipboardCCTextInputNode, CCTextInputNode) {
 
     void pasteText(CCObject * sender) {
         auto txt = cb::read();
-        if (isKeyboardEnabled() || isKeypadEnabled()) setString(fmt::format("{}{}", getString(), filterChars(txt, m_allowedChars)));
+        if (isKeyboardEnabled() || isKeypadEnabled()) setString(fmt::format("{}{}", getString(), txt));
         log::info("pasted text: {}", txt);
-    };
-
-    std::string filterChars(const std::string & input, const std::string & allowed) {
-        std::string res;
-        for (auto c : input) {
-            if (allowed.find(c) != std::string::npos) res.push_back(c);
-        };
-
-        return res;
     };
 };

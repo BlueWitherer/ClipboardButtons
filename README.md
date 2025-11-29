@@ -9,28 +9,10 @@ Add clipboard buttons to text fields.
 >  
 > [<img alt="Downloads" src="https://img.shields.io/github/downloads/BlueWitherer/ClipboardButtons/total?style=for-the-badge&logo=geode&logoColor=ffffff&label=Downloads">](https://www.geode-sdk.org/mods/cheeseworks.clipboardbuttons)
 
-> [!TIP]
-> *This mod has settings you can utilize to customize your experience.*
-
 ---
 
 ## About
-This mod adds a speedrun timer in the style of the *[LiveSplit](https://www.livesplit.org/)* user interface to the player's level UI when playing a platformer level.
-
----
-
-### Timer
-A timer will appear on the top-right corner of the screen. It can be started and stopped via the play button on the top-left corner if you're on mobile, or by pressing `NumPad 1` on your keyboard, and can be fully reset by pressing `NumPad 3` or the reset button on mobile.
-
-By default, the timer will only appear when the player is playing on a platformer level. However, this can be changed in the settings.
-
-### Splits
-You can split your ongoing run into multiple segments by pressing the checkpoint icon button on mobile or `NumPad 2` on your keyboard while the timer is running. If the timer gets fully reset, any and all splits will be removed.
-
-When reaching checkpoints, splits may be generated automatically. This can be changed in settings.
-
-> [!NOTE]
-> *You can customize any keybinds in this mod via the *[Custom Keybinds](https://www.geode-sdk.org/mods/geode.custom-keybinds)* mod.*
+This mod adds a copy and a paste button on every text field you can find in the game!
 
 ---
 
