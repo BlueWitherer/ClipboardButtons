@@ -32,7 +32,7 @@ class $modify(ClipboardCCTextInputNode, CCTextInputNode) {
 
             auto copyBtnSprite = CCSprite::createWithSpriteFrameName("copy.png"_spr);
             copyBtnSprite->setScale(0.325f);
-            copyBtnSprite->setOpacity(50);
+            copyBtnSprite->setOpacity(75);
 
             auto copyBtn = CCMenuItemSpriteExtra::create(
                 copyBtnSprite,
@@ -45,7 +45,7 @@ class $modify(ClipboardCCTextInputNode, CCTextInputNode) {
 
             auto pasteBtnSprite = CCSprite::createWithSpriteFrameName("paste.png"_spr);
             pasteBtnSprite->setScale(0.325f);
-            pasteBtnSprite->setOpacity(50);
+            pasteBtnSprite->setOpacity(75);
 
             auto pasteBtn = CCMenuItemSpriteExtra::create(
                 pasteBtnSprite,
