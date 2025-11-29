@@ -8,10 +8,6 @@ using namespace geode::prelude;
 namespace cb = geode::utils::clipboard;
 
 class $modify(ClipboardCCTextInputNode, CCTextInputNode) {
-    struct Fields {
-        Ref<CCMenu> menu = nullptr;
-    };
-
     bool init(float width, float height, char const* placeholder, char const* textFont, int fontSize, char const* labelFont) {
         if (CCTextInputNode::init(width, height, placeholder, textFont, fontSize, labelFont)) {
             log::debug("hooked text node \"{}\"", getID());
@@ -21,14 +17,14 @@ class $modify(ClipboardCCTextInputNode, CCTextInputNode) {
             menuLayout->setAxisReverse(true);
             menuLayout->setAxisAlignment(AxisAlignment::Center);
 
-            m_fields->menu = CCMenu::create();
-            m_fields->menu->setID("menu"_spr);
-            m_fields->menu->setAnchorPoint({ 1, 0.5 });
-            m_fields->menu->setPosition({ getScaledContentWidth() / 2.f, 0.f });
-            m_fields->menu->setContentSize({ 0.f, getScaledContentHeight() });
-            m_fields->menu->setLayout(menuLayout);
+            auto menu = CCMenu::create();
+            menu->setID("menu"_spr);
+            menu->setAnchorPoint({ 1, 0.5 });
+            menu->setPosition({ getScaledContentWidth() / 2.f, 0.f });
+            menu->setContentSize({ 0.f, getScaledContentHeight() });
+            menu->setLayout(menuLayout);
 
-            addChild(m_fields->menu);
+            addChild(menu);
 
             auto copyBtnSprite = CCSprite::createWithSpriteFrameName("copy.png"_spr);
             copyBtnSprite->setScale(0.325f);
@@ -41,7 +37,7 @@ class $modify(ClipboardCCTextInputNode, CCTextInputNode) {
             );
             copyBtn->setID("copy-btn");
 
-            m_fields->menu->addChild(copyBtn);
+            menu->addChild(copyBtn);
 
             auto pasteBtnSprite = CCSprite::createWithSpriteFrameName("paste.png"_spr);
             pasteBtnSprite->setScale(0.325f);
@@ -54,9 +50,9 @@ class $modify(ClipboardCCTextInputNode, CCTextInputNode) {
             );
             pasteBtn->setID("paste-btn");
 
-            m_fields->menu->addChild(pasteBtn);
+            menu->addChild(pasteBtn);
 
-            m_fields->menu->updateLayout(true);
+            menu->updateLayout(true);
 
             return true;
         } else {

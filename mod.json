@@ -22,6 +22,11 @@
         "info": "Report any issues to my repository!",
         "url": "https://www.github.com/BlueWitherer/ClipboardButtons/issues/"
     },
+    "tags": [
+        "offline",
+        "enhancement",
+        "universal"
+    ],
     "resources": {
         "spritesheets": {
             "CB_ui": [
