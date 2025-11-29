@@ -1,0 +1,33 @@
+{
+    "geode": "4.10.0",
+    "gd": {
+        "win": "2.2074",
+        "android": "2.2074",
+        "mac": "2.2074",
+        "ios": "2.2074"
+    },
+    "id": "cheeseworks.clipboardbuttons",
+    "name": "Clipboard Buttons",
+    "version": "1.0.0",
+    "developers": [
+        "Cheeseworks"
+    ],
+    "description": "Add clipboard buttons to text fields.",
+    "links": {
+        "source": "https://github.com/BlueWitherer/ClipboardButtons",
+        "homepage": "https://www.cheeseworks.gay/",
+        "community": "https://www.dsc.gg/cubic"
+    },
+    "issues": {
+        "info": "Report any issues to my repository!",
+        "url": "https://www.github.com/BlueWitherer/ClipboardButtons/issues/"
+    },
+    "resources": {
+        "spritesheets": {
+            "CB_ui": [
+                "resources/*.png"
+            ]
+        }
+    },
+    "early-load": false
+}
