@@ -19,6 +19,11 @@ This mod adds a copy and a paste button on every text field you can find in the 
 
 ---
 
+### Customization
+In the mod settings, you can find the options you need to re-scale the buttons as well as adjust their opacity, among others. Feel free to tweak these as you need!
+
+---
+
 ### Changelog
 ###### What's new?!
 **[📜 View the latest updates and patches](./changelog.md)**

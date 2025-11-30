@@ -36,12 +36,12 @@
     },
     "settings": {
         "btn-scale": {
+            "type": "float",
             "name": "Button Scale",
             "description": "Re-scale the clipboard buttons that appear on text fields.",
-            "type": "float",
             "default": 1.0,
             "min": 0.125,
-            "max": 2.5,
+            "max": 10.0,
             "control": {
                 "input": true,
                 "slider": true,
@@ -53,10 +53,10 @@
             }
         },
         "btn-opacity": {
+            "type": "int",
             "name": "Button Opacity",
             "description": "Adjust the opacity of the clipboard buttons that appear on text fields.",
-            "type": "int",
-            "default": 150,
+            "default": 165,
             "min": 1,
             "max": 255,
             "control": {
@@ -68,6 +68,12 @@
                 "big-arrows": true,
                 "big-arrow-step": 100
             }
+        },
+        "rtl": {
+            "type": "bool",
+            "name": "Right to Left",
+            "description": "Apply the clipboard node anchored to the right-hand side of the text field expanding towards the left=hand side.",
+            "default": true
         }
     },
     "early-load": false
