@@ -20,5 +20,10 @@ protected:
 public:
     static ClipboardMenu* create(CCTextInputNode* textInput);
 
-    void rescale(float scale);
+    void setButtonScale(float scale);
+
+    float getButtonScale() const;
+    int getButtonOpacity() const;
+
+    bool isRTL() const;
 };

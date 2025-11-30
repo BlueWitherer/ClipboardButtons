@@ -37,8 +37,8 @@ bool ClipboardMenu::init(CCTextInputNode* textInput) {
     layout->setCrossAxisReverse(m_impl->m_rtl);
 
     setID("menu"_spr);
-    setAnchorPoint({ m_impl->m_rtl ? 1 : 0, 0.5 });
-    setPosition({ textInput->getScaledContentWidth() / 2.f, 0.f });
+    setAnchorPoint({ m_impl->m_rtl ? 1.f : 0.f, 0.5f });
+    setPosition({ textInput->getScaledContentWidth() / 2.f * (m_impl->m_rtl ? 1.f : -1.f), 0.f });
     setContentSize({ 0.f, textInput->getScaledContentHeight() });
     setLayout(layout);
 
@@ -84,7 +84,7 @@ void ClipboardMenu::reload() {
 void ClipboardMenu::copyText(CCObject*) {
     if (m_impl->m_textInput) {
         auto txt = m_impl->m_textInput->getString();
-        if (m_impl->m_textInput->isVisible()) cb::write(txt);
+        if (txt.length() > 0) cb::write(txt);
         log::info("copied text: {}", txt);
     } else {
         log::error("text input node missing to copy text from");
@@ -101,7 +101,7 @@ void ClipboardMenu::pasteText(CCObject*) {
     };
 };
 
-void ClipboardMenu::rescale(float scale) {
+void ClipboardMenu::setButtonScale(float scale) {
     if (scale >= 10.f) scale = 10.f;
     if (scale <= 0.125f) scale = 0.125f;
 
@@ -113,6 +113,18 @@ void ClipboardMenu::rescale(float scale) {
     };
 
     reload();
+};
+
+float ClipboardMenu::getButtonScale() const {
+    return m_impl->m_scale;
+};
+
+int ClipboardMenu::getButtonOpacity() const {
+    return static_cast<int>(m_impl->m_opacity);
+};
+
+bool ClipboardMenu::isRTL() const {
+    return m_impl->m_rtl;
 };
 
 ClipboardMenu* ClipboardMenu::create(CCTextInputNode* textInput) {
