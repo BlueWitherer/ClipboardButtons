@@ -84,7 +84,7 @@ void ClipboardMenu::reload() {
 void ClipboardMenu::copyText(CCObject*) {
     if (m_impl->m_textInput) {
         auto txt = m_impl->m_textInput->getString();
-        if (txt.length() > 0) cb::write(txt);
+        if (txt.size() > 0) cb::write(txt);
         log::info("copied text: {}", txt);
     } else {
         log::error("text input node missing to copy text from");
