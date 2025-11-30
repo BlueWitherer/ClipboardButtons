@@ -8,56 +8,58 @@ using namespace geode::prelude;
 namespace cb = geode::utils::clipboard;
 
 class $modify(ClipboardCCTextInputNode, CCTextInputNode) {
+    struct Fields {
+        float scale = static_cast<float>(Mod::get()->getSettingValue<double>("btn-scale"));
+    };
+
     bool init(float width, float height, char const* placeholder, char const* textFont, int fontSize, char const* labelFont) {
-        if (CCTextInputNode::init(width, height, placeholder, textFont, fontSize, labelFont)) {
-            log::debug("hooked text node \"{}\"", getID());
+        if (!CCTextInputNode::init(width, height, placeholder, textFont, fontSize, labelFont)) return false;
 
-            auto menuLayout = ColumnLayout::create();
-            menuLayout->setGap(1.25f);
-            menuLayout->setAxisReverse(true);
-            menuLayout->setAxisAlignment(AxisAlignment::Center);
+        log::debug("hooked text node \"{}\"", getID());
 
-            auto menu = CCMenu::create();
-            menu->setID("menu"_spr);
-            menu->setAnchorPoint({ 1, 0.5 });
-            menu->setPosition({ getScaledContentWidth() / 2.f, 0.f });
-            menu->setContentSize({ 0.f, getScaledContentHeight() });
-            menu->setLayout(menuLayout);
+        auto menuLayout = ColumnLayout::create();
+        menuLayout->setGap(1.25f * (m_fields->scale * 0.5f));
+        menuLayout->setAxisReverse(true);
+        menuLayout->setAxisAlignment(AxisAlignment::Center);
 
-            addChild(menu);
+        auto menu = CCMenu::create();
+        menu->setID("menu"_spr);
+        menu->setAnchorPoint({ 1, 0.5 });
+        menu->setPosition({ getScaledContentWidth() / 2.f, 0.f });
+        menu->setContentSize({ 0.f, getScaledContentHeight() });
+        menu->setLayout(menuLayout);
 
-            auto copyBtnSprite = CCSprite::createWithSpriteFrameName("copy.png"_spr);
-            copyBtnSprite->setScale(0.325f);
-            copyBtnSprite->setOpacity(75);
+        addChild(menu);
 
-            auto copyBtn = CCMenuItemSpriteExtra::create(
-                copyBtnSprite,
-                this,
-                menu_selector(ClipboardCCTextInputNode::copyText)
-            );
-            copyBtn->setID("copy-btn");
+        auto copyBtnSprite = CCSprite::createWithSpriteFrameName("copy.png"_spr);
+        copyBtnSprite->setScale(0.325f * m_fields->scale);
+        copyBtnSprite->setOpacity(75);
 
-            menu->addChild(copyBtn);
+        auto copyBtn = CCMenuItemSpriteExtra::create(
+            copyBtnSprite,
+            this,
+            menu_selector(ClipboardCCTextInputNode::copyText)
+        );
+        copyBtn->setID("copy-btn");
 
-            auto pasteBtnSprite = CCSprite::createWithSpriteFrameName("paste.png"_spr);
-            pasteBtnSprite->setScale(0.325f);
-            pasteBtnSprite->setOpacity(75);
+        menu->addChild(copyBtn);
 
-            auto pasteBtn = CCMenuItemSpriteExtra::create(
-                pasteBtnSprite,
-                this,
-                menu_selector(ClipboardCCTextInputNode::pasteText)
-            );
-            pasteBtn->setID("paste-btn");
+        auto pasteBtnSprite = CCSprite::createWithSpriteFrameName("paste.png"_spr);
+        pasteBtnSprite->setScale(0.325f * m_fields->scale);
+        pasteBtnSprite->setOpacity(75);
 
-            menu->addChild(pasteBtn);
+        auto pasteBtn = CCMenuItemSpriteExtra::create(
+            pasteBtnSprite,
+            this,
+            menu_selector(ClipboardCCTextInputNode::pasteText)
+        );
+        pasteBtn->setID("paste-btn");
 
-            menu->updateLayout(true);
+        menu->addChild(pasteBtn);
 
-            return true;
-        } else {
-            return false;
-        };
+        menu->updateLayout(true);
+
+        return true;
     };
 
     void copyText(CCObject * sender) {

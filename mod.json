@@ -34,5 +34,24 @@
             ]
         }
     },
+    "settings": {
+        "btn-scale": {
+            "name": "Button Scale",
+            "description": "Re-scale the clipboard buttons that appear on text fields.",
+            "type": "float",
+            "default": 1.0,
+            "min": 0.125,
+            "max": 2.5,
+            "control": {
+                "input": true,
+                "slider": true,
+                "slider-step": 0.125,
+                "arrows": true,
+                "arrow-step": 0.5,
+                "big-arrows": true,
+                "big-arrow-step": 1.0
+            }
+        }
+    },
     "early-load": false
 }
