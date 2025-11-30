@@ -10,6 +10,7 @@ namespace cb = geode::utils::clipboard;
 class $modify(ClipboardCCTextInputNode, CCTextInputNode) {
     struct Fields {
         float scale = static_cast<float>(Mod::get()->getSettingValue<double>("btn-scale"));
+        int64_t opacity = Mod::get()->getSettingValue<int64_t>("btn-opacity");
 
         Ref<CCMenu> menu = nullptr;
     };
@@ -35,7 +36,7 @@ class $modify(ClipboardCCTextInputNode, CCTextInputNode) {
 
         auto copyBtnSprite = CCSprite::createWithSpriteFrameName("copy.png"_spr);
         copyBtnSprite->setScale(0.325f * m_fields->scale);
-        copyBtnSprite->setOpacity(75);
+        copyBtnSprite->setOpacity(m_fields->opacity);
 
         auto copyBtn = CCMenuItemSpriteExtra::create(
             copyBtnSprite,
@@ -48,7 +49,7 @@ class $modify(ClipboardCCTextInputNode, CCTextInputNode) {
 
         auto pasteBtnSprite = CCSprite::createWithSpriteFrameName("paste.png"_spr);
         pasteBtnSprite->setScale(0.325f * m_fields->scale);
-        pasteBtnSprite->setOpacity(75);
+        pasteBtnSprite->setOpacity(m_fields->opacity);
 
         auto pasteBtn = CCMenuItemSpriteExtra::create(
             pasteBtnSprite,
