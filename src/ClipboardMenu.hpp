@@ -10,6 +10,8 @@ protected:
     ClipboardMenu();
     virtual ~ClipboardMenu();
 
+    void reload();
+
     void copyText(CCObject*);
     void pasteText(CCObject*);
 
@@ -17,4 +19,6 @@ protected:
 
 public:
     static ClipboardMenu* create(CCTextInputNode* textInput);
+
+    void rescale(float scale);
 };

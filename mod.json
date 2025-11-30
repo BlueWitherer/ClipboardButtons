@@ -12,7 +12,7 @@
     "developers": [
         "Cheeseworks"
     ],
-    "description": "Add clipboard buttons to text fields.",
+    "description": "Add clipboard buttons to text input fields.",
     "links": {
         "source": "https://github.com/BlueWitherer/ClipboardButtons",
         "homepage": "https://www.cheeseworks.gay/",

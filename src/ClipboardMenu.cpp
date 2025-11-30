@@ -9,10 +9,12 @@ namespace cb = geode::utils::clipboard;
 
 class ClipboardMenu::Impl final {
     public:
-    CCTextInputNode* m_textInput = nullptr;
+    Ref<CCTextInputNode> m_textInput = nullptr;
 
     float m_scale = static_cast<float>(Mod::get()->getSettingValue<double>("btn-scale"));
     int64_t m_opacity = Mod::get()->getSettingValue<int64_t>("btn-opacity");
+
+    bool m_rtl = Mod::get()->getSettingValue<bool>("rtl");
 };
 
 ClipboardMenu::ClipboardMenu() {
@@ -32,12 +34,23 @@ bool ClipboardMenu::init(CCTextInputNode* textInput) {
     layout->setGap(1.25f * m_impl->m_scale);
     layout->setAxisReverse(true);
     layout->setAxisAlignment(AxisAlignment::Center);
+    layout->setCrossAxisReverse(m_impl->m_rtl);
 
     setID("menu"_spr);
-    setAnchorPoint({ 1, 0.5 });
+    setAnchorPoint({ m_impl->m_rtl ? 1 : 0, 0.5 });
     setPosition({ textInput->getScaledContentWidth() / 2.f, 0.f });
     setContentSize({ 0.f, textInput->getScaledContentHeight() });
     setLayout(layout);
+
+    reload();
+
+    setVisible(textInput->isTouchEnabled());
+
+    return true;
+};
+
+void ClipboardMenu::reload() {
+    removeAllChildrenWithCleanup(true);
 
     auto copyBtnSprite = CCSprite::createWithSpriteFrameName("copy.png"_spr);
     copyBtnSprite->setScale(0.325f * m_impl->m_scale);
@@ -66,9 +79,6 @@ bool ClipboardMenu::init(CCTextInputNode* textInput) {
     addChild(pasteBtn);
 
     updateLayout(true);
-    setVisible(textInput->isTouchEnabled());
-
-    return true;
 };
 
 void ClipboardMenu::copyText(CCObject*) {
@@ -89,6 +99,20 @@ void ClipboardMenu::pasteText(CCObject*) {
     } else {
         log::error("text input node missing to paste text to");
     };
+};
+
+void ClipboardMenu::rescale(float scale) {
+    if (scale >= 10.f) scale = 10.f;
+    if (scale <= 0.125f) scale = 0.125f;
+
+    m_impl->m_scale = scale;
+
+    if (auto layout = static_cast<ColumnLayout*>(getLayout())) {
+        layout->setGap(1.25f * scale);
+        setLayout(layout);
+    };
+
+    reload();
 };
 
 ClipboardMenu* ClipboardMenu::create(CCTextInputNode* textInput) {
