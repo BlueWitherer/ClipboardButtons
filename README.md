@@ -9,6 +9,9 @@ Add clipboard buttons to text fields.
 >  
 > [<img alt="Downloads" src="https://img.shields.io/github/downloads/BlueWitherer/ClipboardButtons/total?style=for-the-badge&logo=geode&logoColor=ffffff&label=Downloads">](https://www.geode-sdk.org/mods/cheeseworks.clipboardbuttons)
 
+> [!TIP]
+*This mod has settings you can utilize to customize your experience.*
+
 ---
 
 ## About
