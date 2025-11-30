@@ -13,7 +13,11 @@ class $modify(ClipboardEditLevelLayer, EditLevelLayer) {
 
         if (auto name = getChildByID("level-name-input")) {
             log::debug("node {} found", name->getID());
-            if (auto menu = name->getChildByID("menu"_spr)) menu->setPositionX(menu->getPositionX() + 25.f);
+
+            if (auto menu = static_cast<ClipboardMenu*>(name->getChildByID("menu"_spr))) {
+                menu->setPositionX(menu->getPositionX() + 25.f);
+                menu->setButtonScale(menu->getButtonScale() * 1.25f);
+            };
         };
 
         if (auto desc = getChildByID("description-input")) {

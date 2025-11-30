@@ -34,6 +34,12 @@
             ]
         }
     },
+    "dependencies": {
+        "geode.node-ids": {
+            "importance": "required",
+            "version": ">=1.21.0"
+        }
+    },
     "settings": {
         "btn-scale": {
             "type": "float",
