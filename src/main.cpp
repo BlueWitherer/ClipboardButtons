@@ -60,6 +60,7 @@ class $modify(ClipboardCCTextInputNode, CCTextInputNode) {
         m_fields->menu->addChild(pasteBtn);
 
         m_fields->menu->updateLayout(true);
+        m_fields->menu->setVisible(isTouchEnabled());
 
         return true;
     };

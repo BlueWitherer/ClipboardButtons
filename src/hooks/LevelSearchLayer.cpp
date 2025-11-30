@@ -11,7 +11,7 @@ class $modify(ClipboardLevelSearchLayer, LevelSearchLayer) {
 
         if (auto search = getChildByID("search-bar")) {
             log::debug("node {} found", search->getID());
-            if (auto searchMenu = search->getChildByID("menu"_spr)) searchMenu->setPositionX(search->getScaledContentWidth() + 12.5f);
+            if (auto searchMenu = search->getChildByID("menu"_spr)) searchMenu->setPositionX(search->getScaledContentWidth() + 10.f);
         };
 
         return true;
