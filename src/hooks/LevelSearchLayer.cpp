@@ -10,9 +10,8 @@ class $modify(ClipboardLevelSearchLayer, LevelSearchLayer) {
         log::info("hooked search layer");
 
         if (auto search = getChildByID("search-bar")) {
-            if (auto searchNode = search->getChildByType<CCTextInputNode*>(1)) {
-                if (auto searchNodeMenu = searchNode->getChildByID("menu"_spr)) searchNodeMenu->setPositionX(searchNode->getScaledContentWidth());
-            };
+            log::debug("node {} found", search->getID());
+            if (auto searchMenu = search->getChildByID("menu"_spr)) searchMenu->setPositionX(search->getScaledContentWidth());
         };
 
         return true;
