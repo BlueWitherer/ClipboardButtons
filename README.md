@@ -1,5 +1,5 @@
 # [<img src="logo.png" width="25" alt="The mod's logo." />](https://www.geode-sdk.org/mods/cheeseworks.clipboardbuttons) Clipboard Buttons
-Add clipboard buttons to text input fields.
+Add clipboard UI to every text input field.
 
 ---
 
@@ -20,7 +20,15 @@ This mod adds a copy and a paste button on every text input field you can find i
 ---
 
 ### Customization
-In the mod settings, you can find the options you need to re-scale the buttons as well as adjust their opacity, among others. Feel free to tweak these as you need!
+In this mod's settings, you can find the options you need to re-scale the buttons to your liking as well as adjust their opacity, among others. Feel free to tweak these as you need!
+
+> [!WARNING]
+> *The positioning of the clipboard buttons may not be perfect depending on how the text input field in question is set up.*
+
+---
+
+### Credits
+- **[ArcticWoof](https://www.github.com/DumbCaveSpider/)**: Playtesting
 
 ---
 

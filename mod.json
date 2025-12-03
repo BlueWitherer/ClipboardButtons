@@ -12,7 +12,7 @@
     "developers": [
         "Cheeseworks"
     ],
-    "description": "Add clipboard buttons to text input fields.",
+    "description": "Add clipboard UI to every text input field.",
     "links": {
         "source": "https://github.com/BlueWitherer/ClipboardButtons",
         "homepage": "https://www.cheeseworks.gay/",
@@ -62,7 +62,7 @@
             "type": "int",
             "name": "Button Opacity",
             "description": "Adjust the opacity of the clipboard buttons that appear on text fields.",
-            "default": 165,
+            "default": 150,
             "min": 1,
             "max": 255,
             "control": {
