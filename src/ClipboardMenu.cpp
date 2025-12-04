@@ -93,7 +93,7 @@ void ClipboardMenu::copyText(CCObject*) {
 void ClipboardMenu::pasteText(CCObject*) {
     if (m_impl->m_textInput) {
         auto txt = cb::read();
-        if (m_impl->m_textInput->isTouchEnabled()) m_impl->m_textInput->setString(fmt::format("{}{}", m_impl->m_textInput->getString(), txt));
+        if (m_impl->m_textInput->isTouchEnabled() && txt.size() > 0) m_impl->m_textInput->setString(fmt::format("{}{}", m_impl->m_textInput->getString(), txt));
         log::info("pasted text: {}", txt);
     } else {
         log::error("text input node missing to paste text to");
