@@ -65,8 +65,8 @@
         },
         "btn-always": {
             "type": "bool",
-            "name": "Always Show Buttons",
-            "description": "Always show clipboard buttons on every text input field without having to focus on it first.",
+            "name": "Always Show",
+            "description": "Show clipboard UI on every text input field without having to focus on it first.",
             "default": false
         },
         "btn-scale": {

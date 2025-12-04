@@ -14,7 +14,7 @@ class $modify(ClipboardCCTextInputNode, CCTextInputNode) {
         Ref<ClipboardMenu> menu = nullptr;
 
         bool noEditor = Mod::get()->getSettingValue<bool>("disable-editor");
-        bool alwaysShow = Mod::get()->getSettingValue<bool>("btn-always");
+        bool always = Mod::get()->getSettingValue<bool>("btn-always");
     };
 
     bool init(float width, float height, char const* placeholder, char const* textFont, int fontSize, char const* labelFont) {
@@ -38,7 +38,7 @@ class $modify(ClipboardCCTextInputNode, CCTextInputNode) {
     };
 
     void onClickTrackNode(bool selected) {
-        if (m_fields->menu) m_fields->menu->setVisible(selected || m_fields->alwaysShow);
+        if (m_fields->menu) m_fields->menu->setVisible(selected || m_fields->always);
         CCTextInputNode::onClickTrackNode(selected);
     };
 };
