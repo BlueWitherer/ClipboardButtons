@@ -1,5 +1,6 @@
 # v1.0.1
-- Fix Android crash when focusing on a text input node
+- Crash fixes
+- Removed toggle setting `Right to Left`
 
 # v1.0.0
 - Initial release

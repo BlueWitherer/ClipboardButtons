@@ -14,8 +14,6 @@ public:
     float m_scale = static_cast<float>(Mod::get()->getSettingValue<double>("btn-scale"));
     int64_t m_opacity = Mod::get()->getSettingValue<int64_t>("btn-opacity");
     bool m_space = Mod::get()->getSettingValue<bool>("btn-paste-space");
-
-    bool m_rtl = Mod::get()->getSettingValue<bool>("rtl");
 };
 
 ClipboardMenu::ClipboardMenu() {
@@ -35,13 +33,12 @@ bool ClipboardMenu::init(CCTextInputNode* textInput) {
     layout->setGap(1.25f * m_impl->m_scale);
     layout->setAxisReverse(true);
     layout->setAxisAlignment(AxisAlignment::Center);
-    layout->setCrossAxisReverse(m_impl->m_rtl);
 
     setID("menu"_spr);
     setTouchEnabled(true);
     setTouchMode(kCCTouchesOneByOne);
-    setAnchorPoint({ m_impl->m_rtl ? 1.f : 0.f, 0.5f });
-    setPosition({ textInput->getScaledContentWidth() / 2.f * (m_impl->m_rtl ? 1.f : -1.f), 0.f });
+    setAnchorPoint({ 1.f, 0.5f });
+    setPosition({ textInput->getScaledContentWidth() / 2.f, 0.f });
     setContentSize({ 0.f, textInput->getScaledContentHeight() });
     setLayout(layout);
 
@@ -126,10 +123,6 @@ float ClipboardMenu::getButtonScale() const {
 
 int ClipboardMenu::getButtonOpacity() const {
     return static_cast<int>(m_impl->m_opacity);
-};
-
-bool ClipboardMenu::isRTL() const {
-    return m_impl->m_rtl;
 };
 
 ClipboardMenu* ClipboardMenu::create(CCTextInputNode* textInput) {

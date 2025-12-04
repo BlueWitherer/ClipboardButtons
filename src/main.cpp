@@ -25,7 +25,7 @@ class $modify(ClipboardCCTextInputNode, CCTextInputNode) {
         if (LevelEditorLayer::get() && m_fields->noEditor) return true;
 
         m_fields->menu = ClipboardMenu::create(this);
-        m_fields->menu->setVisible(isTouchEnabled() && (m_selected || m_fields->always));
+        m_fields->menu->setVisible(showMenu());
 
         addChild(m_fields->menu);
 
@@ -34,12 +34,35 @@ class $modify(ClipboardCCTextInputNode, CCTextInputNode) {
 
     void setTouchEnabled(bool value) {
         CCTextInputNode::setTouchEnabled(value);
-        if (m_fields->menu) m_fields->menu->setVisible(value && (m_selected || m_fields->always));
+        if (m_fields->menu) m_fields->menu->setVisible(value && m_fields->always);
     };
 
-    void onClickTrackNode(bool selected) {
-        CCTextInputNode::onClickTrackNode(selected);
-        if (m_fields->menu) m_fields->menu->setVisible(selected || m_fields->always);
+    bool onTextFieldAttachWithIME(cocos2d::CCTextFieldTTF * tField) {
+        if (m_fields->menu) {
+            m_fields->menu->setVisible(isTouchEnabled());
+            alignMenu();
+        };
+
+        return CCTextInputNode::onTextFieldAttachWithIME(tField);
+    };
+
+    bool onTextFieldDetachWithIME(cocos2d::CCTextFieldTTF * tField) {
+        if (m_fields->menu) m_fields->menu->setVisible(showMenu());
+        return CCTextInputNode::onTextFieldDetachWithIME(tField);
+    };
+
+    bool showMenu() {
+        return isTouchEnabled() && m_fields->always;
+    };
+
+    void alignMenu() {
+        if (m_fields->menu) {
+            auto anchor = getAnchorPoint();
+            m_fields->menu->setPosition({ getScaledContentWidth() * (1.f - anchor.x), getScaledContentHeight() * (0.5f - anchor.y) });
+        };
+
+        // auto box = boundingBox();
+        // m_fields->menu->setPosition({ box.getMaxX(), box.getMidY() });
     };
 };
 

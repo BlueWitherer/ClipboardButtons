@@ -52,17 +52,6 @@
                 "ios": false
             }
         },
-        "accessibility": {
-            "type": "title",
-            "name": "Accessibility",
-            "description": "Features to improve accessibility."
-        },
-        "rtl": {
-            "type": "bool",
-            "name": "Right to Left",
-            "description": "Anchor the clipboard UI to the right-hand side of the text input field expanding towards the left-hand side.",
-            "default": true
-        },
         "ui": {
             "type": "title",
             "name": "Interface",
