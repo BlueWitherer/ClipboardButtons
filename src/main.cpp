@@ -33,13 +33,13 @@ class $modify(ClipboardCCTextInputNode, CCTextInputNode) {
     };
 
     void setTouchEnabled(bool value) {
-        if (m_fields->menu) m_fields->menu->setVisible(value && (m_selected || m_fields->always));
         CCTextInputNode::setTouchEnabled(value);
+        if (m_fields->menu) m_fields->menu->setVisible(value && (m_selected || m_fields->always));
     };
 
     void onClickTrackNode(bool selected) {
-        if (m_fields->menu) m_fields->menu->setVisible(selected || m_fields->always);
         CCTextInputNode::onClickTrackNode(selected);
+        if (m_fields->menu) m_fields->menu->setVisible(selected || m_fields->always);
     };
 };
 
