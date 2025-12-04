@@ -44,7 +44,7 @@
         "disable-editor": {
             "type": "bool",
             "name": "Disable in Editor",
-            "description": "Hide clipboard buttons from text fields while working in the level editor.",
+            "description": "Hide clipboard buttons from text input fields while working in the level editor.",
             "default": true
         },
         "accessibility": {
@@ -55,7 +55,7 @@
         "rtl": {
             "type": "bool",
             "name": "Right to Left",
-            "description": "Apply the clipboard node anchored to the right-hand side of the text field expanding towards the left=hand side.",
+            "description": "Apply the clipboard node anchored to the right-hand side of the text input field expanding towards the left=hand side.",
             "default": true
         },
         "ui": {
@@ -63,10 +63,16 @@
             "name": "Interface",
             "description": "Appearance and functionality of the interface."
         },
+        "btn-always": {
+            "type": "bool",
+            "name": "Always Show Buttons",
+            "description": "Always show clipboard buttons on every text input field without having to focus on it first.",
+            "default": false
+        },
         "btn-scale": {
             "type": "float",
             "name": "Button Scale",
-            "description": "Re-scale the clipboard buttons that appear on text fields.",
+            "description": "Re-scale the clipboard buttons that appear on text input fields.",
             "default": 1.0,
             "min": 0.125,
             "max": 5.0,
@@ -83,7 +89,7 @@
         "btn-opacity": {
             "type": "int",
             "name": "Button Opacity",
-            "description": "Adjust the opacity of the clipboard buttons that appear on text fields.",
+            "description": "Adjust the opacity of the clipboard buttons that appear on text input fields.",
             "default": 150,
             "min": 1,
             "max": 255,
