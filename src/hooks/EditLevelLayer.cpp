@@ -6,7 +6,7 @@
 
 using namespace geode::prelude;
 
-class $modify(ClipboardEditLevelLayer, EditLevelLayer) {
+class $modify(CbHookEditLevelLayer, EditLevelLayer) {
     bool init(GJGameLevel * level) {
         if (!EditLevelLayer::init(level)) return false;
         log::info("hook edit level layer");

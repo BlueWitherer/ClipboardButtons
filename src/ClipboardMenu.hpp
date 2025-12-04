@@ -24,6 +24,5 @@ public:
 
     float getButtonScale() const;
     int getButtonOpacity() const;
-
     bool isRTL() const;
 };

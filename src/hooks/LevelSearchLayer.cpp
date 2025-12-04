@@ -4,7 +4,7 @@
 
 using namespace geode::prelude;
 
-class $modify(ClipboardLevelSearchLayer, LevelSearchLayer) {
+class $modify(CbHookLevelSearchLayer, LevelSearchLayer) {
     bool init(int type) {
         if (!LevelSearchLayer::init(type)) return false;
         log::info("hooked level search layer");

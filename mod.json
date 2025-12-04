@@ -41,6 +41,28 @@
         }
     },
     "settings": {
+        "disable-editor": {
+            "type": "bool",
+            "name": "Disable in Editor",
+            "description": "Hide clipboard buttons from text fields while working in the level editor.",
+            "default": true
+        },
+        "accessibility": {
+            "type": "title",
+            "name": "Accessibility",
+            "description": "Features to improve accessibility."
+        },
+        "rtl": {
+            "type": "bool",
+            "name": "Right to Left",
+            "description": "Apply the clipboard node anchored to the right-hand side of the text field expanding towards the left=hand side.",
+            "default": true
+        },
+        "ui": {
+            "type": "title",
+            "name": "Interface",
+            "description": "Appearance and functionality of the interface."
+        },
         "btn-scale": {
             "type": "float",
             "name": "Button Scale",
@@ -74,18 +96,6 @@
                 "big-arrows": true,
                 "big-arrow-step": 100
             }
-        },
-        "rtl": {
-            "type": "bool",
-            "name": "Right to Left",
-            "description": "Apply the clipboard node anchored to the right-hand side of the text field expanding towards the left=hand side.",
-            "default": true
-        },
-        "disable-editor": {
-            "type": "bool",
-            "name": "Disable in Editor",
-            "description": "Hide clipboard buttons while in the level editor.",
-            "default": true
         }
     },
     "early-load": false

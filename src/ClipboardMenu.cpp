@@ -8,12 +8,11 @@ using namespace geode::prelude;
 namespace cb = geode::utils::clipboard;
 
 class ClipboardMenu::Impl final {
-    public:
+public:
     Ref<CCTextInputNode> m_textInput = nullptr;
 
     float m_scale = static_cast<float>(Mod::get()->getSettingValue<double>("btn-scale"));
     int64_t m_opacity = Mod::get()->getSettingValue<int64_t>("btn-opacity");
-
     bool m_rtl = Mod::get()->getSettingValue<bool>("rtl");
 };
 
@@ -137,4 +136,4 @@ ClipboardMenu* ClipboardMenu::create(CCTextInputNode* textInput) {
 
     CC_SAFE_DELETE(ret);
     return nullptr;
-}; 
+};

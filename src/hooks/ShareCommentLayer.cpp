@@ -6,7 +6,7 @@
 
 using namespace geode::prelude;
 
-class $modify(ClipboardShareCommentLayer, ShareCommentLayer) {
+class $modify(CbHookShareCommentLayer, ShareCommentLayer) {
     bool init(gd::string title, int charLimit, CommentType type, int ID, gd::string desc) {
         if (!ShareCommentLayer::init(title, charLimit, type, ID, desc)) return false;
 
