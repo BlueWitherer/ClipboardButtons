@@ -69,7 +69,7 @@
             "description": "Re-scale the clipboard buttons that appear on text fields.",
             "default": 1.0,
             "min": 0.125,
-            "max": 10.0,
+            "max": 5.0,
             "control": {
                 "input": true,
                 "slider": true,

@@ -23,7 +23,12 @@ This mod adds a copy and a paste button on every text input field you can find i
 In this mod's settings, you can find the options you need to re-scale the buttons to your liking as well as adjust their opacity, among others. Feel free to tweak these as you need!
 
 > [!WARNING]
-> *The positioning of the clipboard buttons may not be perfect depending on how the text input field in question is set up.*
+> *The positioning of the clipboard UI might not be perfect everywhere.*
+
+---
+
+#### Known Issues
+- Clipboard UI positioning offset in Geode mods layer and mod settings popup search nodes
 
 ---
 
