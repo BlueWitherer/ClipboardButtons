@@ -25,7 +25,7 @@ class $modify(ClipboardCCTextInputNode, CCTextInputNode) {
         if (LevelEditorLayer::get() && m_fields->noEditor) return true;
 
         m_fields->menu = ClipboardMenu::create(this);
-        m_fields->menu->setVisible(m_selected);
+        m_fields->menu->setVisible(isTouchEnabled() && (m_selected || m_fields->always));
 
         addChild(m_fields->menu);
 
@@ -33,7 +33,7 @@ class $modify(ClipboardCCTextInputNode, CCTextInputNode) {
     };
 
     void setTouchEnabled(bool value) {
-        if (m_fields->menu) m_fields->menu->setVisible(value);
+        if (m_fields->menu) m_fields->menu->setVisible(value && (m_selected || m_fields->always));
         CCTextInputNode::setTouchEnabled(value);
     };
 

@@ -45,7 +45,12 @@
             "type": "bool",
             "name": "Disable in Editor",
             "description": "Hide clipboard buttons from text input fields while working in the level editor.",
-            "default": true
+            "default": {
+                "win": true,
+                "mac": true,
+                "android": false,
+                "ios": false
+            }
         },
         "accessibility": {
             "type": "title",
@@ -55,7 +60,7 @@
         "rtl": {
             "type": "bool",
             "name": "Right to Left",
-            "description": "Apply the clipboard node anchored to the right-hand side of the text input field expanding towards the left=hand side.",
+            "description": "Anchor the clipboard UI to the right-hand side of the text input field expanding towards the left-hand side.",
             "default": true
         },
         "ui": {
@@ -67,7 +72,23 @@
             "type": "bool",
             "name": "Always Show",
             "description": "Show clipboard UI on every text input field without having to focus on it first.",
-            "default": false
+            "default": {
+                "win": false,
+                "mac": false,
+                "android": true,
+                "ios": true
+            }
+        },
+        "btn-paste-space": {
+            "type": "bool",
+            "name": "Paste with Space",
+            "description": "Add a space at the end when pasting text. <co>This will first trim any extra space found at the end of the copied text.</c>",
+            "default": {
+                "win": false,
+                "mac": false,
+                "android": true,
+                "ios": true
+            }
         },
         "btn-scale": {
             "type": "float",
@@ -89,7 +110,7 @@
         "btn-opacity": {
             "type": "int",
             "name": "Button Opacity",
-            "description": "Adjust the opacity of the clipboard buttons that appear on text input fields.",
+            "description": "Adjust the opacity of the clipboard UI that appear on text input fields.",
             "default": 150,
             "min": 1,
             "max": 255,

@@ -5,7 +5,7 @@
 using namespace geode::prelude;
 
 // ez clipboard
-namespace cb = geode::utils::clipboard;
+namespace cb = utils::clipboard;
 
 class ClipboardMenu::Impl final {
 public:
@@ -13,6 +13,8 @@ public:
 
     float m_scale = static_cast<float>(Mod::get()->getSettingValue<double>("btn-scale"));
     int64_t m_opacity = Mod::get()->getSettingValue<int64_t>("btn-opacity");
+    bool m_space = Mod::get()->getSettingValue<bool>("btn-paste-space");
+
     bool m_rtl = Mod::get()->getSettingValue<bool>("rtl");
 };
 
@@ -36,14 +38,14 @@ bool ClipboardMenu::init(CCTextInputNode* textInput) {
     layout->setCrossAxisReverse(m_impl->m_rtl);
 
     setID("menu"_spr);
+    setTouchEnabled(true);
+    setTouchMode(kCCTouchesOneByOne);
     setAnchorPoint({ m_impl->m_rtl ? 1.f : 0.f, 0.5f });
     setPosition({ textInput->getScaledContentWidth() / 2.f * (m_impl->m_rtl ? 1.f : -1.f), 0.f });
     setContentSize({ 0.f, textInput->getScaledContentHeight() });
     setLayout(layout);
 
     reload();
-
-    setVisible(textInput->isTouchEnabled());
 
     return true;
 };
@@ -92,7 +94,11 @@ void ClipboardMenu::copyText(CCObject*) {
 
 void ClipboardMenu::pasteText(CCObject*) {
     if (m_impl->m_textInput) {
-        auto txt = cb::read();
+        auto cbTxt = cb::read();
+
+        auto t = m_impl->m_space ? utils::string::trimRight(cbTxt) : cbTxt;
+        auto txt = m_impl->m_space ? fmt::format("{} ", t) : t;
+
         if (m_impl->m_textInput->isTouchEnabled() && txt.size() > 0) m_impl->m_textInput->setString(fmt::format("{}{}", m_impl->m_textInput->getString(), txt));
         log::info("pasted text: {}", txt);
     } else {
