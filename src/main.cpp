@@ -38,11 +38,7 @@ class $modify(ClipboardCCTextInputNode, CCTextInputNode) {
     };
 
     bool onTextFieldAttachWithIME(cocos2d::CCTextFieldTTF * tField) {
-        if (m_fields->menu) {
-            m_fields->menu->setVisible(isTouchEnabled());
-            alignMenu();
-        };
-
+        if (m_fields->menu) m_fields->menu->setVisible(isTouchEnabled());
         return CCTextInputNode::onTextFieldAttachWithIME(tField);
     };
 
@@ -53,16 +49,6 @@ class $modify(ClipboardCCTextInputNode, CCTextInputNode) {
 
     bool showMenu() {
         return isTouchEnabled() && m_fields->always;
-    };
-
-    void alignMenu() {
-        if (m_fields->menu) {
-            auto anchor = getAnchorPoint();
-            m_fields->menu->setPosition({ getScaledContentWidth() * (1.f - anchor.x), getScaledContentHeight() * (0.5f - anchor.y) });
-        };
-
-        // auto box = boundingBox();
-        // m_fields->menu->setPosition({ box.getMaxX(), box.getMidY() });
     };
 };
 

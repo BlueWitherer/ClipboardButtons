@@ -23,8 +23,6 @@ ClipboardMenu::ClipboardMenu() {
 ClipboardMenu::~ClipboardMenu() {};
 
 bool ClipboardMenu::init(CCTextInputNode* textInput) {
-    if (!textInput) return false;
-
     m_impl->m_textInput = textInput;
 
     if (!CCMenu::init()) return false;
