@@ -81,7 +81,7 @@ void ClipboardMenu::copyText(CCObject*) {
     if (m_impl->m_textInput) {
         auto txt = m_impl->m_textInput->getString();
         if (txt.size() > 0) cb::write(txt);
-        log::info("copied text: {}", txt);
+        log::debug("copied text: {}", txt);
     } else {
         log::error("text input node missing to copy text from");
     };
@@ -95,7 +95,7 @@ void ClipboardMenu::pasteText(CCObject*) {
         auto txt = m_impl->m_space ? fmt::format("{} ", t) : t;
 
         if (m_impl->m_textInput->isTouchEnabled() && txt.size() > 0) m_impl->m_textInput->setString(fmt::format("{}{}", m_impl->m_textInput->getString(), txt));
-        log::info("pasted text: {}", txt);
+        log::debug("pasted text: {}", txt);
     } else {
         log::error("text input node missing to paste text to");
     };

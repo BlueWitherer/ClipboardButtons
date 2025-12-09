@@ -7,7 +7,6 @@ using namespace geode::prelude;
 class $modify(CbHookLevelSearchLayer, LevelSearchLayer) {
     bool init(int type) {
         if (!LevelSearchLayer::init(type)) return false;
-        log::info("hooked level search layer");
 
         if (auto search = getChildByID("search-bar")) {
             log::debug("node {} found", search->getID());

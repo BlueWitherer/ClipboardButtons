@@ -9,7 +9,6 @@ using namespace geode::prelude;
 class $modify(CbHookEditLevelLayer, EditLevelLayer) {
     bool init(GJGameLevel * level) {
         if (!EditLevelLayer::init(level)) return false;
-        log::info("hook edit level layer");
 
         if (auto name = getChildByID("level-name-input")) {
             log::debug("node {} found", name->getID());
