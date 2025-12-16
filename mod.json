@@ -8,7 +8,7 @@
     },
     "id": "cheeseworks.clipboardbuttons",
     "name": "Clipboard Buttons",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "developers": [
         "Cheeseworks"
     ],
@@ -25,6 +25,7 @@
     "tags": [
         "offline",
         "enhancement",
+        "utility",
         "universal"
     ],
     "resources": {

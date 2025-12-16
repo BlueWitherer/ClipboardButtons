@@ -3,10 +3,11 @@
 using namespace geode::prelude;
 
 class ClipboardMenu : public CCMenu {
-protected:
+    private:
     class Impl;
     std::unique_ptr<Impl> m_impl;
 
+protected:
     ClipboardMenu();
     virtual ~ClipboardMenu();
 

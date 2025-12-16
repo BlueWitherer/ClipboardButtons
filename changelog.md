@@ -1,3 +1,6 @@
+# v1.0.3
+- Minor improvements
+
 # v1.0.2
 - Removed clipboard UI auto-align on focus
 - Modified clipboard UI size on vault code layers

@@ -79,7 +79,7 @@ void ClipboardMenu::reload() {
 
 void ClipboardMenu::copyText(CCObject*) {
     if (m_impl->m_textInput) {
-        auto txt = m_impl->m_textInput->getString();
+        auto const txt = m_impl->m_textInput->getString();
         if (txt.size() > 0) cb::write(txt);
         log::debug("copied text: {}", txt);
     } else {
@@ -89,10 +89,10 @@ void ClipboardMenu::copyText(CCObject*) {
 
 void ClipboardMenu::pasteText(CCObject*) {
     if (m_impl->m_textInput) {
-        auto cbTxt = cb::read();
+        auto const cbTxt = cb::read();
 
-        auto t = m_impl->m_space ? utils::string::trimRight(cbTxt) : cbTxt;
-        auto txt = m_impl->m_space ? fmt::format("{} ", t) : t;
+        auto const t = m_impl->m_space ? utils::string::trimRight(cbTxt) : cbTxt;
+        auto const txt = m_impl->m_space ? fmt::format("{} ", t) : t;
 
         if (m_impl->m_textInput->isTouchEnabled() && txt.size() > 0) m_impl->m_textInput->setString(fmt::format("{}{}", m_impl->m_textInput->getString(), txt));
         log::debug("pasted text: {}", txt);
@@ -125,8 +125,7 @@ int ClipboardMenu::getButtonOpacity() const {
 
 ClipboardMenu* ClipboardMenu::create(CCTextInputNode* textInput) {
     auto ret = new ClipboardMenu();
-
-    if (ret && ret->init(textInput)) {
+    if (ret->init(textInput)) {
         ret->autorelease();
         return ret;
     };
