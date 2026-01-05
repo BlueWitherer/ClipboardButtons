@@ -27,17 +27,18 @@ bool ClipboardMenu::init(CCTextInputNode* textInput) {
 
     if (!CCMenu::init()) return false;
 
-    auto layout = ColumnLayout::create();
-    layout->setGap(1.25f * m_impl->m_scale);
-    layout->setAxisReverse(true);
-    layout->setAxisAlignment(AxisAlignment::Center);
-
     setID("menu"_spr);
     setTouchEnabled(true);
     setTouchMode(kCCTouchesOneByOne);
     setAnchorPoint({ 1.f, 0.5f });
     setPosition({ textInput->getScaledContentWidth() / 2.f, 0.f });
     setContentSize({ 0.f, textInput->getScaledContentHeight() });
+
+    auto layout = ColumnLayout::create();
+    layout->setGap(1.25f * m_impl->m_scale);
+    layout->setAxisReverse(true);
+    layout->setAxisAlignment(AxisAlignment::Center);
+
     setLayout(layout);
 
     reload();
