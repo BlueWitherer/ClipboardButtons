@@ -118,7 +118,8 @@ void ClipboardMenu::pasteText(CCObject*) {
         auto const t = m_impl->space ? utils::string::trimRight(cbTxt) : cbTxt;
         auto txt = m_impl->space ? fmt::format("{} ", t) : t;
 
-        if (txt.size() > m_impl->inputNode->m_maxLabelLength) txt.erase(m_impl->inputNode->m_maxLabelLength);
+        auto totalSize = static_cast<int>(txt.size() + m_impl->inputNode->getString().size());
+        if (totalSize > m_impl->inputNode->m_maxLabelLength) txt.erase(totalSize - m_impl->inputNode->m_maxLabelLength);
 
         if (m_impl->inputNode->isTouchEnabled() && txt.size() > 0) m_impl->inputNode->setString(fmt::format("{}{}", m_impl->inputNode->getString(), txt));
         log::debug("pasted text: {}", txt);

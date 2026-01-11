@@ -1,5 +1,6 @@
 # v1.0.3
 - Reworked clipboard UI positioning calculations
+- Added safeguard for pasting text exceeding text field limits
 - Minor improvements
 
 # v1.0.2
