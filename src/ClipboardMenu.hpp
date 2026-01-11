@@ -13,6 +13,8 @@ protected:
 
     void reload();
 
+    void rePos(float);
+
     void copyText(CCObject*);
     void pasteText(CCObject*);
 
@@ -24,5 +26,4 @@ public:
     void setButtonScale(float scale);
 
     float getButtonScale() const;
-    int getButtonOpacity() const;
 };

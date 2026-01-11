@@ -9,11 +9,12 @@ namespace cb = utils::clipboard;
 
 class ClipboardMenu::Impl final {
 public:
-    Ref<CCTextInputNode> m_textInput = nullptr;
+    Ref<CCTextInputNode> inputNode = nullptr;
 
-    float m_scale = static_cast<float>(Mod::get()->getSettingValue<double>("btn-scale"));
-    int64_t m_opacity = Mod::get()->getSettingValue<int64_t>("btn-opacity");
-    bool m_space = Mod::get()->getSettingValue<bool>("btn-paste-space");
+    float scale = static_cast<float>(Mod::get()->getSettingValue<double>("btn-scale"));
+    int64_t opacity = Mod::get()->getSettingValue<int64_t>("btn-opacity");
+
+    bool space = Mod::get()->getSettingValue<bool>("btn-paste-space");
 };
 
 ClipboardMenu::ClipboardMenu() {
@@ -23,22 +24,22 @@ ClipboardMenu::ClipboardMenu() {
 ClipboardMenu::~ClipboardMenu() {};
 
 bool ClipboardMenu::init(CCTextInputNode* textInput) {
-    m_impl->m_textInput = textInput;
+    m_impl->inputNode = textInput;
 
     if (!CCMenu::init()) return false;
 
+    auto layout = ColumnLayout::create()
+        ->setGap(1.25f * m_impl->scale)
+        ->setAxisReverse(true)
+        ->setAxisAlignment(AxisAlignment::Center);
+
     setID("menu"_spr);
+    setTouchPriority(-9);
     setTouchEnabled(true);
     setTouchMode(kCCTouchesOneByOne);
-    setAnchorPoint({ 1.f, 0.5f });
     setPosition({ textInput->getScaledContentWidth() / 2.f, 0.f });
-    setContentSize({ 0.f, textInput->getScaledContentHeight() });
-
-    auto layout = ColumnLayout::create();
-    layout->setGap(1.25f * m_impl->m_scale);
-    layout->setAxisReverse(true);
-    layout->setAxisAlignment(AxisAlignment::Center);
-
+    setContentHeight(textInput->getScaledContentHeight());
+    setAnchorPoint({ 1, 0.5 });
     setLayout(layout);
 
     reload();
@@ -50,8 +51,8 @@ void ClipboardMenu::reload() {
     removeAllChildrenWithCleanup(true);
 
     auto copyBtnSprite = CCSprite::createWithSpriteFrameName("copy.png"_spr);
-    copyBtnSprite->setScale(0.325f * m_impl->m_scale);
-    copyBtnSprite->setOpacity(m_impl->m_opacity);
+    copyBtnSprite->setScale(0.325f * m_impl->scale);
+    copyBtnSprite->setOpacity(m_impl->opacity);
 
     auto copyBtn = CCMenuItemSpriteExtra::create(
         copyBtnSprite,
@@ -63,8 +64,8 @@ void ClipboardMenu::reload() {
     addChild(copyBtn);
 
     auto pasteBtnSprite = CCSprite::createWithSpriteFrameName("paste.png"_spr);
-    pasteBtnSprite->setScale(0.325f * m_impl->m_scale);
-    pasteBtnSprite->setOpacity(m_impl->m_opacity);
+    pasteBtnSprite->setScale(0.325f * m_impl->scale);
+    pasteBtnSprite->setOpacity(m_impl->opacity);
 
     auto pasteBtn = CCMenuItemSpriteExtra::create(
         pasteBtnSprite,
@@ -75,12 +76,34 @@ void ClipboardMenu::reload() {
 
     addChild(pasteBtn);
 
-    updateLayout(true);
+    updateLayout();
+
+    scheduleOnce(schedule_selector(ClipboardMenu::rePos), 0.0125f);
+};
+
+void ClipboardMenu::rePos(float) {
+    if (m_impl->inputNode) {
+        if (auto parent = typeinfo_cast<TextInput*>(m_impl->inputNode->getParent())) {
+            log::debug("TextInput parent found for \"{}\"", m_impl->inputNode->getID());
+
+            auto width = parent->getScaledContentWidth();
+            auto pos = m_impl->inputNode->getPositionX();
+
+            setPosition({ (width - pos) - 1.25f, 0.f });
+        } else {
+            log::debug("No TextInput parent found for \"{}\"", m_impl->inputNode->getID());
+        };
+
+        auto height = m_impl->inputNode->getScaledContentHeight();
+        setScale(getScaledContentHeight() / height);
+    } else {
+        log::error("Text input node not found");
+    };
 };
 
 void ClipboardMenu::copyText(CCObject*) {
-    if (m_impl->m_textInput) {
-        auto const txt = m_impl->m_textInput->getString();
+    if (m_impl->inputNode) {
+        auto const txt = m_impl->inputNode->getString();
         if (txt.size() > 0) cb::write(txt);
         log::debug("copied text: {}", txt);
     } else {
@@ -89,13 +112,15 @@ void ClipboardMenu::copyText(CCObject*) {
 };
 
 void ClipboardMenu::pasteText(CCObject*) {
-    if (m_impl->m_textInput) {
+    if (m_impl->inputNode) {
         auto const cbTxt = cb::read();
 
-        auto const t = m_impl->m_space ? utils::string::trimRight(cbTxt) : cbTxt;
-        auto const txt = m_impl->m_space ? fmt::format("{} ", t) : t;
+        auto const t = m_impl->space ? utils::string::trimRight(cbTxt) : cbTxt;
+        auto txt = m_impl->space ? fmt::format("{} ", t) : t;
 
-        if (m_impl->m_textInput->isTouchEnabled() && txt.size() > 0) m_impl->m_textInput->setString(fmt::format("{}{}", m_impl->m_textInput->getString(), txt));
+        if (m_impl->inputNode->m_maxLabelLength > txt.size()) txt.erase(m_impl->inputNode->m_maxLabelLength);
+
+        if (m_impl->inputNode->isTouchEnabled() && txt.size() > 0) m_impl->inputNode->setString(fmt::format("{}{}", m_impl->inputNode->getString(), txt));
         log::debug("pasted text: {}", txt);
     } else {
         log::error("text input node missing to paste text to");
@@ -106,7 +131,7 @@ void ClipboardMenu::setButtonScale(float scale) {
     if (scale >= 10.f) scale = 10.f;
     if (scale <= 0.125f) scale = 0.125f;
 
-    m_impl->m_scale = scale;
+    m_impl->scale = scale;
 
     if (auto layout = static_cast<ColumnLayout*>(getLayout())) {
         layout->setGap(1.25f * scale);
@@ -117,11 +142,7 @@ void ClipboardMenu::setButtonScale(float scale) {
 };
 
 float ClipboardMenu::getButtonScale() const {
-    return m_impl->m_scale;
-};
-
-int ClipboardMenu::getButtonOpacity() const {
-    return static_cast<int>(m_impl->m_opacity);
+    return m_impl->scale;
 };
 
 ClipboardMenu* ClipboardMenu::create(CCTextInputNode* textInput) {

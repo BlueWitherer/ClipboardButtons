@@ -1,4 +1,5 @@
 # v1.0.3
+- Reworked clipboard UI positioning calculations
 - Minor improvements
 
 # v1.0.2

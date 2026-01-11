@@ -11,7 +11,7 @@ using namespace geode::prelude;
 
 class $modify(ClipboardCCTextInputNode, CCTextInputNode) {
     struct Fields {
-        ClipboardMenu* m_clipboard = nullptr;
+        ClipboardMenu* clipboardMenu = nullptr;
 
         bool noEditor = Mod::get()->getSettingValue<bool>("disable-editor");
         bool always = Mod::get()->getSettingValue<bool>("btn-always");
@@ -20,30 +20,33 @@ class $modify(ClipboardCCTextInputNode, CCTextInputNode) {
     bool init(float width, float height, char const* placeholder, char const* textFont, int fontSize, char const* labelFont) {
         if (!CCTextInputNode::init(width, height, placeholder, textFont, fontSize, labelFont)) return false;
 
+        auto f = m_fields.self();
+
         log::debug("hooked text node \"{}\"", getID());
 
-        if (LevelEditorLayer::get() && m_fields->noEditor) return true;
+        if (LevelEditorLayer::get() && f->noEditor) return true;
 
-        m_fields->m_clipboard = ClipboardMenu::create(this);
-        m_fields->m_clipboard->setVisible(showMenu());
+        f->clipboardMenu = ClipboardMenu::create(this);
+        f->clipboardMenu->setVisible(showMenu());
 
-        addChild(m_fields->m_clipboard);
+        addChild(f->clipboardMenu, 9);
+        f->clipboardMenu->updateLayout();
 
         return true;
     };
 
     void setTouchEnabled(bool value) {
         CCTextInputNode::setTouchEnabled(value);
-        if (m_fields->m_clipboard) m_fields->m_clipboard->setVisible(value && m_fields->always);
+        if (m_fields->clipboardMenu) m_fields->clipboardMenu->setVisible(value && m_fields->always);
     };
 
     bool onTextFieldAttachWithIME(cocos2d::CCTextFieldTTF * tField) {
-        if (m_fields->m_clipboard) m_fields->m_clipboard->setVisible(isTouchEnabled());
+        if (m_fields->clipboardMenu) m_fields->clipboardMenu->setVisible(isTouchEnabled());
         return CCTextInputNode::onTextFieldAttachWithIME(tField);
     };
 
     bool onTextFieldDetachWithIME(cocos2d::CCTextFieldTTF * tField) {
-        if (m_fields->m_clipboard) m_fields->m_clipboard->setVisible(showMenu());
+        if (m_fields->clipboardMenu) m_fields->clipboardMenu->setVisible(showMenu());
         return CCTextInputNode::onTextFieldDetachWithIME(tField);
     };
 
@@ -56,7 +59,7 @@ class $modify(ClipboardEditorPauseLayer, EditorPauseLayer) {
     bool init(LevelEditorLayer * layer) {
         if (!EditorPauseLayer::init(layer)) return false;
 
-        if (auto guidelinesMenu = static_cast<CCMenu*>(getChildByID("guidelines-m_clipboard"))) {
+        if (auto guidelinesMenu = static_cast<CCMenu*>(getChildByID("guidelines-clipboardMenu"))) {
             auto btnSprite = CircleButtonSprite::createWithSpriteFrameName("icon.png"_spr, 0.875f);
             btnSprite->setScale(0.875f);
 
