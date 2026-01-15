@@ -1,4 +1,4 @@
-# Clipboard Buttons
+# Easy Clipboard
 **Add clipboard UI to every text input field.**
 
 *by [Cheeseworks](user:6408873)!*
