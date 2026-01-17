@@ -94,8 +94,7 @@ void ClipboardMenu::rePos(float) {
             log::debug("No TextInput parent found for \"{}\"", m_impl->inputNode->getID());
         };
 
-        auto height = m_impl->inputNode->getScaledContentHeight();
-        setScale(getScaledContentHeight() / height);
+        setScale(getScaledContentHeight() / m_impl->inputNode->getScaledContentHeight());
     } else {
         log::error("Text input node not found");
     };
@@ -143,7 +142,7 @@ void ClipboardMenu::setButtonScale(float scale) {
 
     m_impl->scale = scale;
 
-    if (auto layout = static_cast<ColumnLayout*>(getLayout())) {
+    if (auto layout = typeinfo_cast<ColumnLayout*>(getLayout())) {
         layout->setGap(1.25f * scale);
         setLayout(layout);
     };
@@ -151,7 +150,7 @@ void ClipboardMenu::setButtonScale(float scale) {
     reload();
 };
 
-float ClipboardMenu::getButtonScale() const {
+float ClipboardMenu::getButtonScale() const noexcept {
     return m_impl->scale;
 };
 

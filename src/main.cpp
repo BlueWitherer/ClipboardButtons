@@ -59,7 +59,7 @@ class $modify(ClipboardEditorPauseLayer, EditorPauseLayer) {
     bool init(LevelEditorLayer * layer) {
         if (!EditorPauseLayer::init(layer)) return false;
 
-        if (auto guidelinesMenu = static_cast<CCMenu*>(getChildByID("guidelines-clipboardMenu"))) {
+        if (auto guidelinesMenu = typeinfo_cast<CCMenu*>(getChildByID("guidelines-menu"))) {
             auto btnSprite = CircleButtonSprite::createWithSpriteFrameName("icon.png"_spr, 0.875f);
             btnSprite->setScale(0.875f);
 
@@ -71,7 +71,7 @@ class $modify(ClipboardEditorPauseLayer, EditorPauseLayer) {
             btn->setID("settings"_spr);
 
             guidelinesMenu->addChild(btn);
-            guidelinesMenu->updateLayout(true);
+            guidelinesMenu->updateLayout();
         };
 
         return true;

@@ -1,3 +1,7 @@
+# v1.0.4
+- Fixed mod settings shortcut not appearing in level editor pause menu
+- Minor improvements
+
 # v1.0.3
 - Reworked clipboard UI positioning calculations
 - Added safeguard for pasting text exceeding text field limits

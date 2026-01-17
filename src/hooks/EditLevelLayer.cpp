@@ -13,7 +13,7 @@ class $modify(CbHookEditLevelLayer, EditLevelLayer) {
         if (auto name = getChildByID("level-name-input")) {
             log::debug("node {} found", name->getID());
 
-            if (auto menu = static_cast<ClipboardMenu*>(name->getChildByID("menu"_spr))) {
+            if (auto menu = typeinfo_cast<ClipboardMenu*>(name->getChildByID("menu"_spr))) {
                 menu->setPositionX(menu->getPositionX() + 25.f);
                 menu->setButtonScale(menu->getButtonScale() * 1.25f);
             };
@@ -22,7 +22,7 @@ class $modify(CbHookEditLevelLayer, EditLevelLayer) {
         if (auto desc = getChildByID("description-input")) {
             log::debug("node {} found", desc->getID());
 
-            if (auto menu = static_cast<ClipboardMenu*>(desc->getChildByID("menu"_spr))) {
+            if (auto menu = typeinfo_cast<ClipboardMenu*>(desc->getChildByID("menu"_spr))) {
                 menu->setPositionX(menu->getPositionX() - 8.75f);
                 menu->setButtonScale(menu->getButtonScale() * 2.5f);
             };

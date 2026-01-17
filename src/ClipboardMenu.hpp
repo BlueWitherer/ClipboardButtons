@@ -25,5 +25,5 @@ public:
 
     void setButtonScale(float scale);
 
-    float getButtonScale() const;
+    float getButtonScale() const noexcept;
 };
