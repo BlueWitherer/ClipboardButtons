@@ -68,7 +68,7 @@ class $modify(ClipboardEditorPauseLayer, EditorPauseLayer) {
                 this,
                 menu_selector(ClipboardEditorPauseLayer::onClipboardBtn)
             );
-            btn->setID("settings"_spr);
+            btn->setID("clipboard-settings"_spr);
 
             guidelinesMenu->addChild(btn);
             guidelinesMenu->updateLayout();

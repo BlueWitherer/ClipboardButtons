@@ -1,3 +1,6 @@
+# v1.0.5
+- Tweaks
+
 # v1.0.4
 - Fixed mod settings shortcut not appearing in level editor pause menu
 - Minor improvements
