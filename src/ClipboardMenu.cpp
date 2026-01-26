@@ -161,6 +161,6 @@ ClipboardMenu* ClipboardMenu::create(CCTextInputNode* textInput) {
         return ret;
     };
 
-    CC_SAFE_DELETE(ret);
+    delete ret;
     return nullptr;
 };
