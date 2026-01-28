@@ -102,20 +102,19 @@ void ClipboardMenu::rePos(float) {
 
 void ClipboardMenu::copyText(CCObject*) {
     if (m_impl->inputNode) {
-        auto const txt = m_impl->inputNode->getString();
-        if (txt.size() > 0) cb::write(txt);
-        log::debug("copied text: {}", txt);
+        auto txt = m_impl->inputNode->getString();
+        if (txt.size() > 0) cb::write(std::move(txt));
     } else {
-        log::error("text input node missing to copy text from");
+        log::error("Text input node missing to copy text from");
     };
 };
 
 void ClipboardMenu::pasteText(CCObject*) {
     if (m_impl->inputNode) {
-        auto const cbTxt = cb::read();
+        auto cbTxt = cb::read();
 
-        auto const t = m_impl->space ? utils::string::trimRight(cbTxt) : cbTxt;
-        auto txt = m_impl->space ? fmt::format("{} ", t) : t;
+        auto t = m_impl->space ? utils::string::trimRight(std::move(cbTxt)) : std::move(cbTxt);
+        auto txt = m_impl->space ? fmt::format("{} ", std::move(t)) : std::move(t);
 
         auto totalSize = static_cast<int>(txt.size() + m_impl->inputNode->getString().size());
         if (totalSize > m_impl->inputNode->m_maxLabelLength) {
@@ -129,8 +128,7 @@ void ClipboardMenu::pasteText(CCObject*) {
             txt.shrink_to_fit();
         };
 
-        if (m_impl->inputNode->isTouchEnabled() && txt.size() > 0) m_impl->inputNode->setString(fmt::format("{}{}", m_impl->inputNode->getString(), txt));
-        log::debug("pasted text: {}", txt);
+        if (m_impl->inputNode->isTouchEnabled() && txt.size() > 0) m_impl->inputNode->setString(fmt::format("{}{}", m_impl->inputNode->getString(), std::move(txt)));
     } else {
         log::error("text input node missing to paste text to");
     };
