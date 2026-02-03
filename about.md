@@ -1,4 +1,4 @@
-# Easy Clipboard
+# ![📄](frame:geode.loader/file.png?scale=0.625) Easy Clipboard
 **Add clipboard UI to every text input field.**
 
 *by [Cheeseworks](user:6408873)!*
