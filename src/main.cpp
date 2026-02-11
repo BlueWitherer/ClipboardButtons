@@ -59,14 +59,15 @@ class $modify(ClipboardEditorPauseLayer, EditorPauseLayer) {
     bool init(LevelEditorLayer * layer) {
         if (!EditorPauseLayer::init(layer)) return false;
 
-        if (auto guidelinesMenu = typeinfo_cast<CCMenu*>(getChildByID("guidelines-menu"))) {
-            auto btnSprite = CircleButtonSprite::createWithSpriteFrameName("icon.png"_spr, 0.875f);
+        if (auto guidelinesMenu = getChildByID("guidelines-menu")) {
+            auto btnSprite = CircleButtonSprite::createWithSpriteFrameName("icon.png"_spr, 0.825f);
             btnSprite->setScale(0.875f);
 
-            auto btn = CCMenuItemSpriteExtra::create(
+            auto btn = CCMenuItemExt::createSpriteExtra(
                 btnSprite,
-                this,
-                menu_selector(ClipboardEditorPauseLayer::onClipboardBtn)
+                [](auto) {
+                    openSettingsPopup(Mod::get());
+                }
             );
             btn->setID("clipboard-settings"_spr);
 
@@ -75,9 +76,5 @@ class $modify(ClipboardEditorPauseLayer, EditorPauseLayer) {
         };
 
         return true;
-    };
-
-    void onClipboardBtn(CCObject*) {
-        openSettingsPopup(Mod::get());
     };
 };
