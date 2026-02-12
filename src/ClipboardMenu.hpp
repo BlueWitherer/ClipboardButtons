@@ -9,7 +9,7 @@ private:
 
 protected:
     ClipboardMenu();
-    virtual ~ClipboardMenu();
+    ~ClipboardMenu();
 
     void reload();
 
