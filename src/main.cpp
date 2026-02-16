@@ -17,7 +17,7 @@ class $modify(ClipboardCCTextInputNode, CCTextInputNode) {
         bool always = Mod::get()->getSettingValue<bool>("btn-always");
     };
 
-    bool init(float width, float height, char const* placeholder, char const* textFont, int fontSize, char const* labelFont) {
+    bool init(float width, float height, const char* placeholder, const char* textFont, int fontSize, const char* labelFont) {
         if (!CCTextInputNode::init(width, height, placeholder, textFont, fontSize, labelFont)) return false;
 
         auto f = m_fields.self();
@@ -40,12 +40,12 @@ class $modify(ClipboardCCTextInputNode, CCTextInputNode) {
         if (m_fields->clipboardMenu) m_fields->clipboardMenu->setVisible(value && m_fields->always);
     };
 
-    bool onTextFieldAttachWithIME(cocos2d::CCTextFieldTTF * tField) {
+    bool onTextFieldAttachWithIME(CCTextFieldTTF * tField) {
         if (m_fields->clipboardMenu) m_fields->clipboardMenu->setVisible(isTouchEnabled());
         return CCTextInputNode::onTextFieldAttachWithIME(tField);
     };
 
-    bool onTextFieldDetachWithIME(cocos2d::CCTextFieldTTF * tField) {
+    bool onTextFieldDetachWithIME(CCTextFieldTTF * tField) {
         if (m_fields->clipboardMenu) m_fields->clipboardMenu->setVisible(showMenu());
         return CCTextInputNode::onTextFieldDetachWithIME(tField);
     };
@@ -69,7 +69,7 @@ class $modify(ClipboardEditorPauseLayer, EditorPauseLayer) {
                     openSettingsPopup(Mod::get());
                 }
             );
-            btn->setID("clipboard-settings"_spr);
+            btn->setID("clipboard-settings-btn"_spr);
 
             guidelinesMenu->addChild(btn);
             guidelinesMenu->updateLayout();

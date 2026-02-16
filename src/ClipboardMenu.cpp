@@ -17,9 +17,7 @@ public:
     bool space = Mod::get()->getSettingValue<bool>("btn-paste-space");
 };
 
-ClipboardMenu::ClipboardMenu() {
-    m_impl = std::make_unique<Impl>();
-};
+ClipboardMenu::ClipboardMenu() : m_impl(std::make_unique<Impl>()) {};
 
 ClipboardMenu::~ClipboardMenu() {};
 
@@ -34,7 +32,6 @@ bool ClipboardMenu::init(CCTextInputNode* textInput) {
         ->setAxisAlignment(AxisAlignment::Center);
 
     setID("menu"_spr);
-    setTouchPriority(-9);
     setTouchEnabled(true);
     setTouchMode(kCCTouchesOneByOne);
     setPosition({ textInput->getScaledContentWidth() / 2.f, 0.f });
