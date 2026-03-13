@@ -1,46 +1,30 @@
 #include "ClipboardMenu.hpp"
 
 #include <Geode/Geode.hpp>
+#include "Geode/loader/Log.hpp"
+#include "Geode/utils/ZStringView.hpp"
+#include "Geode/utils/string.hpp"
 
 using namespace geode::prelude;
 
 // ez clipboard
 namespace cb = utils::clipboard;
 
+// it's modding time >:3
+static auto ezcb = Mod::get();
+
 class ClipboardMenu::Impl final {
 public:
     WeakRef<CCTextInputNode> inputNode = nullptr;
 
-    float scale = static_cast<float>(Mod::get()->getSettingValue<double>("btn-scale"));
-    int64_t opacity = Mod::get()->getSettingValue<int64_t>("btn-opacity");
+    float scale = ezcb->getSettingValue<double>("btn-scale");
+    int64_t opacity = ezcb->getSettingValue<int64_t>("btn-opacity");
 
-    bool space = Mod::get()->getSettingValue<bool>("btn-paste-space");
+    bool space = ezcb->getSettingValue<bool>("btn-paste-space");
 };
 
 ClipboardMenu::ClipboardMenu() : m_impl(std::make_unique<Impl>()) {};
-
 ClipboardMenu::~ClipboardMenu() {};
-
-bool ClipboardMenu::init(CCTextInputNode* textInput) {
-    m_impl->inputNode = textInput;
-
-    if (!CCNode::init()) return false;
-
-    auto layout = ColumnLayout::create()
-                      ->setGap(1.25f * m_impl->scale)
-                      ->setAxisReverse(true)
-                      ->setAxisAlignment(AxisAlignment::Center);
-
-    setID("menu"_spr);
-    setPosition({textInput->getScaledContentWidth() / 2.f, 0.f});
-    setContentHeight(textInput->getScaledContentHeight());
-    setAnchorPoint({1, 0.5});
-    setLayout(layout);
-
-    reload();
-
-    return true;
-};
 
 void ClipboardMenu::reload() {
     removeAllChildrenWithCleanup(true);
@@ -50,8 +34,10 @@ void ClipboardMenu::reload() {
              "copy.png"_spr,
              [this](Button*) {
                  if (auto input = m_impl->inputNode.lock()) {
-                     auto txt = input->getString();
-                     if (txt.size() > 0) cb::write(std::move(txt));
+                     auto const txt = input->getString();
+                     if (txt.size() > 0) cb::write(txt);
+
+                     log::trace("copied text '{}'", txt);
                  } else {
                      log::error("Text input node missing to copy text from");
                  };
@@ -60,10 +46,12 @@ void ClipboardMenu::reload() {
                 "paste.png"_spr,
                 [this](Button*) {
                     if (auto input = m_impl->inputNode.lock()) {
-                        auto cbTxt = cb::read();
+                        auto const cbTxt = cb::read();
 
-                        auto t = m_impl->space ? utils::string::trimRight(std::move(cbTxt)) : std::move(cbTxt);
-                        auto txt = m_impl->space ? fmt::format("{} ", std::move(t)) : std::move(t);
+                        auto t = m_impl->space ? utils::string::trimRight(cbTxt) : cbTxt;
+                        auto txt = m_impl->space ? fmt::format("{} ", t) : std::move(t);
+
+                        txt = utils::string::filter(txt, input->m_allowedChars);
 
                         auto totalSize = static_cast<int>(txt.size() + input->getString().size());
                         if (totalSize > input->m_maxLabelLength) {
@@ -77,7 +65,8 @@ void ClipboardMenu::reload() {
                             txt.shrink_to_fit();
                         };
 
-                        if (input->isTouchEnabled() && txt.size() > 0) input->setString(fmt::format("{}{}", input->getString(), std::move(txt)));
+                        if (input->isTouchEnabled() && txt.size() > 0) input->setString(fmt::format("{}{}", input->getString(), txt));
+                        log::trace("pasted text '{}'", txt);
                     } else {
                         log::error("text input node missing to paste text to");
                     };
@@ -88,7 +77,6 @@ void ClipboardMenu::reload() {
             clipboardBtn.spriteFrame,
             std::move(clipboardBtn.callback));
         btn->setID(clipboardBtn.id);
-        btn->setScale(0.325f * m_impl->scale);
         btn->setOpacity(m_impl->opacity);
 
         addChild(btn);
@@ -112,6 +100,29 @@ void ClipboardMenu::reload() {
     } else {
         log::error("Text input node not found");
     };
+};
+
+bool ClipboardMenu::init(CCTextInputNode* textInput) {
+    m_impl->inputNode = textInput;
+
+    if (!CCNode::init()) return false;
+
+    auto layout = ColumnLayout::create()
+                      ->setGap(1.25f * m_impl->scale)
+                      ->setAutoScale(true)
+                      ->setAxisReverse(true)
+                      ->setAxisAlignment(AxisAlignment::Center);
+
+    setID("menu"_spr);
+    setScale(m_impl->scale);
+    setPosition({textInput->getScaledContentWidth() / 2.f, 0.f});
+    setContentHeight(textInput->getScaledContentHeight());
+    setAnchorPoint({1, 0.5});
+    setLayout(layout);
+
+    reload();
+
+    return true;
 };
 
 void ClipboardMenu::setButtonScale(float scale) {

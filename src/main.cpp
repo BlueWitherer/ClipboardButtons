@@ -33,6 +33,9 @@ class $modify(ClipboardCCTextInputNode, CCTextInputNode) {
         addChild(f->clipboardMenu, 9);
         f->clipboardMenu->updateLayout();
 
+        if (m_textField) log::trace("{} | m_textField->getScaledContentWidth {}", getID(), m_textField->getScaledContentWidth());
+        if (m_textArea) log::trace("{} | m_textArea->getScaledContentWidth {}", getID(), m_textArea->getScaledContentWidth());
+
         return true;
     };
 
@@ -52,8 +55,6 @@ class $modify(ClipboardCCTextInputNode, CCTextInputNode) {
     };
 
     bool showMenu() {
-        if (m_textField) log::trace("{} | m_textField->getScaledContentWidth {}", getID(), m_textField->getScaledContentWidth());
-        if (m_textArea) log::trace("{} | m_textArea->getScaledContentWidth {}", getID(), m_textArea->getScaledContentWidth());
         return isTouchEnabled() && m_fields->always;
     };
 };

@@ -15,11 +15,11 @@ private:
         Button::ButtonCallback callback;
     };
 
+    void reload();
+
 protected:
     ClipboardMenu();
     ~ClipboardMenu();
-
-    void reload();
 
     void rePos(float);
 
