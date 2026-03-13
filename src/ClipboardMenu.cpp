@@ -9,7 +9,7 @@ namespace cb = utils::clipboard;
 
 class ClipboardMenu::Impl final {
 public:
-    Ref<CCTextInputNode> inputNode = nullptr;
+    WeakRef<CCTextInputNode> inputNode = nullptr;
 
     float scale = static_cast<float>(Mod::get()->getSettingValue<double>("btn-scale"));
     int64_t opacity = Mod::get()->getSettingValue<int64_t>("btn-opacity");
@@ -24,19 +24,17 @@ ClipboardMenu::~ClipboardMenu() {};
 bool ClipboardMenu::init(CCTextInputNode* textInput) {
     m_impl->inputNode = textInput;
 
-    if (!CCMenu::init()) return false;
+    if (!CCNode::init()) return false;
 
     auto layout = ColumnLayout::create()
-        ->setGap(1.25f * m_impl->scale)
-        ->setAxisReverse(true)
-        ->setAxisAlignment(AxisAlignment::Center);
+                      ->setGap(1.25f * m_impl->scale)
+                      ->setAxisReverse(true)
+                      ->setAxisAlignment(AxisAlignment::Center);
 
     setID("menu"_spr);
-    setTouchEnabled(true);
-    setTouchMode(kCCTouchesOneByOne);
-    setPosition({ textInput->getScaledContentWidth() / 2.f, 0.f });
+    setPosition({textInput->getScaledContentWidth() / 2.f, 0.f});
     setContentHeight(textInput->getScaledContentHeight());
-    setAnchorPoint({ 1, 0.5 });
+    setAnchorPoint({1, 0.5});
     setLayout(layout);
 
     reload();
@@ -47,87 +45,72 @@ bool ClipboardMenu::init(CCTextInputNode* textInput) {
 void ClipboardMenu::reload() {
     removeAllChildrenWithCleanup(true);
 
-    auto copyBtnSprite = CCSprite::createWithSpriteFrameName("copy.png"_spr);
-    copyBtnSprite->setScale(0.325f * m_impl->scale);
-    copyBtnSprite->setOpacity(m_impl->opacity);
+    auto clipboardBtns = std::to_array<ClipboardButton>(
+        {{"copy-btn",
+             "copy.png"_spr,
+             [this](Button*) {
+                 if (auto input = m_impl->inputNode.lock()) {
+                     auto txt = input->getString();
+                     if (txt.size() > 0) cb::write(std::move(txt));
+                 } else {
+                     log::error("Text input node missing to copy text from");
+                 };
+             }},
+            {"paste-btn",
+                "paste.png"_spr,
+                [this](Button*) {
+                    if (auto input = m_impl->inputNode.lock()) {
+                        auto cbTxt = cb::read();
 
-    auto copyBtn = CCMenuItemSpriteExtra::create(
-        copyBtnSprite,
-        this,
-        menu_selector(ClipboardMenu::copyText)
-    );
-    copyBtn->setID("copy-btn");
+                        auto t = m_impl->space ? utils::string::trimRight(std::move(cbTxt)) : std::move(cbTxt);
+                        auto txt = m_impl->space ? fmt::format("{} ", std::move(t)) : std::move(t);
 
-    addChild(copyBtn);
+                        auto totalSize = static_cast<int>(txt.size() + input->getString().size());
+                        if (totalSize > input->m_maxLabelLength) {
+                            auto excess = totalSize - input->m_maxLabelLength;
+                            if (excess < txt.size()) {
+                                txt.erase(excess);
+                            } else {
+                                txt.clear();
+                            };
 
-    auto pasteBtnSprite = CCSprite::createWithSpriteFrameName("paste.png"_spr);
-    pasteBtnSprite->setScale(0.325f * m_impl->scale);
-    pasteBtnSprite->setOpacity(m_impl->opacity);
+                            txt.shrink_to_fit();
+                        };
 
-    auto pasteBtn = CCMenuItemSpriteExtra::create(
-        pasteBtnSprite,
-        this,
-        menu_selector(ClipboardMenu::pasteText)
-    );
-    pasteBtn->setID("paste-btn");
+                        if (input->isTouchEnabled() && txt.size() > 0) input->setString(fmt::format("{}{}", input->getString(), std::move(txt)));
+                    } else {
+                        log::error("text input node missing to paste text to");
+                    };
+                }}});
 
-    addChild(pasteBtn);
+    for (auto& clipboardBtn : clipboardBtns) {
+        auto btn = Button::createWithSpriteFrameName(
+            clipboardBtn.spriteFrame,
+            std::move(clipboardBtn.callback));
+        btn->setID(clipboardBtn.id);
+        btn->setScale(0.325f * m_impl->scale);
+        btn->setOpacity(m_impl->opacity);
+
+        addChild(btn);
+    };
 
     updateLayout();
 
-    scheduleOnce(schedule_selector(ClipboardMenu::rePos), 0.0125f);
-};
-
-void ClipboardMenu::rePos(float) {
-    if (m_impl->inputNode) {
-        if (auto parent = typeinfo_cast<TextInput*>(m_impl->inputNode->getParent())) {
-            log::debug("TextInput parent found for \"{}\"", m_impl->inputNode->getID());
+    if (auto input = m_impl->inputNode.lock()) {
+        if (auto parent = typeinfo_cast<TextInput*>(input->getParent())) {
+            log::trace("TextInput parent found for \"{}\"", input->getID());
 
             auto width = parent->getScaledContentWidth();
-            auto pos = m_impl->inputNode->getPositionX();
+            auto pos = input->getPositionX();
 
-            setPosition({ (width - pos) - 1.25f, 0.f });
+            setPosition({(width - pos) - 1.25f, 0.f});
         } else {
-            log::debug("No TextInput parent found for \"{}\"", m_impl->inputNode->getID());
+            log::debug("No TextInput parent found for \"{}\"", input->getID());
         };
 
-        setScale(getScaledContentHeight() / m_impl->inputNode->getScaledContentHeight());
+        setScale(getScaledContentHeight() / input->getScaledContentHeight());
     } else {
         log::error("Text input node not found");
-    };
-};
-
-void ClipboardMenu::copyText(CCObject*) {
-    if (m_impl->inputNode) {
-        auto txt = m_impl->inputNode->getString();
-        if (txt.size() > 0) cb::write(std::move(txt));
-    } else {
-        log::error("Text input node missing to copy text from");
-    };
-};
-
-void ClipboardMenu::pasteText(CCObject*) {
-    if (m_impl->inputNode) {
-        auto cbTxt = cb::read();
-
-        auto t = m_impl->space ? utils::string::trimRight(std::move(cbTxt)) : std::move(cbTxt);
-        auto txt = m_impl->space ? fmt::format("{} ", std::move(t)) : std::move(t);
-
-        auto totalSize = static_cast<int>(txt.size() + m_impl->inputNode->getString().size());
-        if (totalSize > m_impl->inputNode->m_maxLabelLength) {
-            auto excess = totalSize - m_impl->inputNode->m_maxLabelLength;
-            if (excess < txt.size()) {
-                txt.erase(excess);
-            } else {
-                txt.clear();
-            };
-
-            txt.shrink_to_fit();
-        };
-
-        if (m_impl->inputNode->isTouchEnabled() && txt.size() > 0) m_impl->inputNode->setString(fmt::format("{}{}", m_impl->inputNode->getString(), std::move(txt)));
-    } else {
-        log::error("text input node missing to paste text to");
     };
 };
 

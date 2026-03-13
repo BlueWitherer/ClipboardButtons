@@ -1,6 +1,7 @@
 # v1.0.5 
 - Ported to Geometry Dash version `2.2081`
   - Bumped Geode loader support to `v5.0.0`
+- Fix potential leaks
 - Internal optimizations
 
 # v1.0.4

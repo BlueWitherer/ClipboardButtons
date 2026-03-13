@@ -1,11 +1,19 @@
 #include <Geode/Geode.hpp>
 
+#include <Geode/ui/Button.hpp>
+
 using namespace geode::prelude;
 
-class ClipboardMenu : public CCMenu {
+class ClipboardMenu : public CCNode {
 private:
     class Impl;
     std::unique_ptr<Impl> m_impl;
+
+    struct ClipboardButton final {
+        const char* id;
+        const char* spriteFrame;
+        Button::ButtonCallback callback;
+    };
 
 protected:
     ClipboardMenu();
@@ -14,9 +22,6 @@ protected:
     void reload();
 
     void rePos(float);
-
-    void copyText(CCObject*);
-    void pasteText(CCObject*);
 
     bool init(CCTextInputNode* textInput);
 

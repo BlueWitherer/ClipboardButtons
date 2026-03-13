@@ -1,4 +1,5 @@
 #include "ClipboardMenu.hpp"
+#include "Geode/loader/Log.hpp"
 
 #include <Geode/Geode.hpp>
 
@@ -22,7 +23,7 @@ class $modify(ClipboardCCTextInputNode, CCTextInputNode) {
 
         auto f = m_fields.self();
 
-        log::debug("hooked text node \"{}\"", getID());
+        log::trace("hooked text node \"{}\"", getID());
 
         if (LevelEditorLayer::get() && f->noEditor) return true;
 
@@ -40,23 +41,25 @@ class $modify(ClipboardCCTextInputNode, CCTextInputNode) {
         if (m_fields->clipboardMenu) m_fields->clipboardMenu->setVisible(value && m_fields->always);
     };
 
-    bool onTextFieldAttachWithIME(CCTextFieldTTF * tField) {
+    bool onTextFieldAttachWithIME(CCTextFieldTTF* tField) {
         if (m_fields->clipboardMenu) m_fields->clipboardMenu->setVisible(isTouchEnabled());
         return CCTextInputNode::onTextFieldAttachWithIME(tField);
     };
 
-    bool onTextFieldDetachWithIME(CCTextFieldTTF * tField) {
+    bool onTextFieldDetachWithIME(CCTextFieldTTF* tField) {
         if (m_fields->clipboardMenu) m_fields->clipboardMenu->setVisible(showMenu());
         return CCTextInputNode::onTextFieldDetachWithIME(tField);
     };
 
     bool showMenu() {
+        if (m_textField) log::trace("{} | m_textField->getScaledContentWidth {}", getID(), m_textField->getScaledContentWidth());
+        if (m_textArea) log::trace("{} | m_textArea->getScaledContentWidth {}", getID(), m_textArea->getScaledContentWidth());
         return isTouchEnabled() && m_fields->always;
     };
 };
 
 class $modify(ClipboardEditorPauseLayer, EditorPauseLayer) {
-    bool init(LevelEditorLayer * layer) {
+    bool init(LevelEditorLayer* layer) {
         if (!EditorPauseLayer::init(layer)) return false;
 
         if (auto guidelinesMenu = getChildByID("guidelines-menu")) {
@@ -67,8 +70,7 @@ class $modify(ClipboardEditorPauseLayer, EditorPauseLayer) {
                 btnSprite,
                 [](auto) {
                     openSettingsPopup(Mod::get());
-                }
-            );
+                });
             btn->setID("clipboard-settings-btn"_spr);
 
             guidelinesMenu->addChild(btn);

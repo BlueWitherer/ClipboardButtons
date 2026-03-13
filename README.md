@@ -24,11 +24,6 @@ In this mod's settings, you can find the options you need to re-scale the button
 
 ---
 
-### Credits
-- **[ArcticWoof](https://www.github.com/DumbCaveSpider/)**: Playtesting
-
----
-
 ![preview](previews/preview-1.png)
 ![preview](previews/preview-2.png)
 
