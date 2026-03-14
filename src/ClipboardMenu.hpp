@@ -4,7 +4,7 @@
 
 using namespace geode::prelude;
 
-class ClipboardMenu : public CCNode {
+class ClipboardMenu final : public CCNode {
 private:
     class Impl;
     std::unique_ptr<Impl> m_impl;
@@ -21,12 +21,10 @@ protected:
     ClipboardMenu();
     ~ClipboardMenu();
 
-    void rePos(float);
-
-    bool init(CCTextInputNode* textInput);
+    bool init(CCTextInputNode* input);
 
 public:
-    static ClipboardMenu* create(CCTextInputNode* textInput);
+    static ClipboardMenu* create(CCTextInputNode* input);
 
     void setButtonScale(float scale);
 

@@ -1,21 +1,24 @@
 #include "ClipboardMenu.hpp"
-#include "Geode/loader/Log.hpp"
 
 #include <Geode/Geode.hpp>
 
 #include <Geode/ui/GeodeUI.hpp>
+#include <Geode/ui/Button.hpp>
 
 #include <Geode/modify/CCTextInputNode.hpp>
 #include <Geode/modify/EditorPauseLayer.hpp>
 
 using namespace geode::prelude;
 
+// it's modding time >:3
+static auto ezcb = Mod::get();
+
 class $modify(ClipboardCCTextInputNode, CCTextInputNode) {
     struct Fields {
         ClipboardMenu* clipboardMenu = nullptr;
 
-        bool noEditor = Mod::get()->getSettingValue<bool>("disable-editor");
-        bool always = Mod::get()->getSettingValue<bool>("btn-always");
+        bool noEditor = ezcb->getSettingValue<bool>("disable-editor");
+        bool always = ezcb->getSettingValue<bool>("btn-always");
     };
 
     bool init(float width, float height, const char* placeholder, const char* textFont, int fontSize, const char* labelFont) {
@@ -64,15 +67,15 @@ class $modify(ClipboardEditorPauseLayer, EditorPauseLayer) {
         if (!EditorPauseLayer::init(layer)) return false;
 
         if (auto guidelinesMenu = getChildByID("guidelines-menu")) {
-            auto btnSprite = CircleButtonSprite::createWithSpriteFrameName("icon.png"_spr, 0.825f);
-            btnSprite->setScale(0.875f);
-
-            auto btn = CCMenuItemExt::createSpriteExtra(
-                btnSprite,
+            auto btn = Button::createWithNode(
+                CircleButtonSprite::createWithSpriteFrameName(
+                    "icon.png"_spr,
+                    0.825f),
                 [](auto) {
-                    openSettingsPopup(Mod::get());
+                    openSettingsPopup(ezcb);
                 });
             btn->setID("clipboard-settings-btn"_spr);
+            btn->setScale(0.875f);
 
             guidelinesMenu->addChild(btn);
             guidelinesMenu->updateLayout();

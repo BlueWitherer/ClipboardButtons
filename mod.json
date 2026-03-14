@@ -76,7 +76,7 @@
         "btn-scale": {
             "type": "float",
             "name": "Button Scale",
-            "description": "Re-scale the clipboard buttons that appear on text input fields.",
+            "description": "Re-scale the clipboard buttons that appear on the text input fields.",
             "default": 1.0,
             "min": 0.125,
             "max": 5.0,

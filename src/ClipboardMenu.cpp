@@ -1,14 +1,14 @@
 #include "ClipboardMenu.hpp"
 
 #include <Geode/Geode.hpp>
-#include "Geode/loader/Log.hpp"
-#include "Geode/utils/ZStringView.hpp"
-#include "Geode/utils/string.hpp"
+#include "Geode/loader/Loader.hpp"
 
 using namespace geode::prelude;
 
 // ez clipboard
 namespace cb = utils::clipboard;
+// ez string
+namespace str = utils::string;
 
 // it's modding time >:3
 static auto ezcb = Mod::get();
@@ -17,7 +17,7 @@ class ClipboardMenu::Impl final {
 public:
     WeakRef<CCTextInputNode> inputNode = nullptr;
 
-    float scale = ezcb->getSettingValue<double>("btn-scale");
+    float scale = ezcb->getSettingValue<float>("btn-scale");
     int64_t opacity = ezcb->getSettingValue<int64_t>("btn-opacity");
 
     bool space = ezcb->getSettingValue<bool>("btn-paste-space");
@@ -48,10 +48,10 @@ void ClipboardMenu::reload() {
                     if (auto input = m_impl->inputNode.lock()) {
                         auto const cbTxt = cb::read();
 
-                        auto t = m_impl->space ? utils::string::trimRight(cbTxt) : cbTxt;
+                        auto t = m_impl->space ? str::trim(cbTxt) : cbTxt;
                         auto txt = m_impl->space ? fmt::format("{} ", t) : std::move(t);
 
-                        txt = utils::string::filter(txt, input->m_allowedChars);
+                        txt = str::filter(txt, input->m_allowedChars);
 
                         auto totalSize = static_cast<int>(txt.size() + input->getString().size());
                         if (totalSize > input->m_maxLabelLength) {
@@ -82,42 +82,43 @@ void ClipboardMenu::reload() {
         addChild(btn);
     };
 
-    updateLayout();
+    queueInMainThread([this]() {
+        if (auto input = m_impl->inputNode.lock()) {
+            if (auto field = input->m_textField) {
+                log::trace("Field area found for \"{}\"", input->getID());
 
-    if (auto input = m_impl->inputNode.lock()) {
-        if (auto parent = typeinfo_cast<TextInput*>(input->getParent())) {
-            log::trace("TextInput parent found for \"{}\"", input->getID());
+                auto anchor = field->getAnchorPoint().x;
+                auto width = input->getScaledContentWidth();
 
-            auto width = parent->getScaledContentWidth();
-            auto pos = input->getPositionX();
-
-            setPosition({(width - pos) - 1.25f, 0.f});
+                setPosition({width - (width * anchor), 0.f});
+            } else {
+                log::debug("No TextInput field found for \"{}\"", input->getID());
+            };
         } else {
-            log::debug("No TextInput parent found for \"{}\"", input->getID());
+            log::error("Text input node not found");
         };
 
-        setScale(getScaledContentHeight() / input->getScaledContentHeight());
-    } else {
-        log::error("Text input node not found");
-    };
+        updateLayout();
+    });
 };
 
-bool ClipboardMenu::init(CCTextInputNode* textInput) {
-    m_impl->inputNode = textInput;
+bool ClipboardMenu::init(CCTextInputNode* input) {
+    m_impl->inputNode = input;
 
     if (!CCNode::init()) return false;
 
     auto layout = ColumnLayout::create()
                       ->setGap(1.25f * m_impl->scale)
-                      ->setAutoScale(true)
                       ->setAxisReverse(true)
-                      ->setAxisAlignment(AxisAlignment::Center);
+                      ->setAxisAlignment(AxisAlignment::Center)
+                      ->setDefaultScaleLimits(0.f, 0.325f * m_impl->scale);
 
     setID("menu"_spr);
     setScale(m_impl->scale);
-    setPosition({textInput->getScaledContentWidth() / 2.f, 0.f});
-    setContentHeight(textInput->getScaledContentHeight());
     setAnchorPoint({1, 0.5});
+    setPosition({input->getScaledContentWidth() / 2.f, 0.f});
+    setContentSize({0.f, input->getScaledContentHeight()});
+    setScale(getScaledContentHeight() / (input->getScaledContentHeight() * 0.875f));
     setLayout(layout);
 
     reload();
@@ -126,13 +127,15 @@ bool ClipboardMenu::init(CCTextInputNode* textInput) {
 };
 
 void ClipboardMenu::setButtonScale(float scale) {
-    if (scale >= 10.f) scale = 10.f;
+    if (scale >= 5.f) scale = 5.f;
     if (scale <= 0.125f) scale = 0.125f;
 
     m_impl->scale = scale;
 
     if (auto layout = typeinfo_cast<ColumnLayout*>(getLayout())) {
         layout->setGap(1.25f * scale);
+        if (auto input = m_impl->inputNode.lock()) layout->setDefaultScaleLimits(0.f, getScaledContentHeight() / (input->getScaledContentHeight() * 0.875f));
+
         setLayout(layout);
     };
 
@@ -143,9 +146,9 @@ float ClipboardMenu::getButtonScale() const noexcept {
     return m_impl->scale;
 };
 
-ClipboardMenu* ClipboardMenu::create(CCTextInputNode* textInput) {
+ClipboardMenu* ClipboardMenu::create(CCTextInputNode* input) {
     auto ret = new ClipboardMenu();
-    if (ret->init(textInput)) {
+    if (ret->init(input)) {
         ret->autorelease();
         return ret;
     };
