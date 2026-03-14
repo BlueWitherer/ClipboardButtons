@@ -1,9 +1,6 @@
 #include "ClipboardMenu.hpp"
 
 #include <Geode/Geode.hpp>
-#include "Geode/loader/Loader.hpp"
-#include "Geode/platform/windows.hpp"
-#include "Geode/ui/TextInput.hpp"
 
 using namespace geode::prelude;
 
