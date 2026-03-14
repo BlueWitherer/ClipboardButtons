@@ -2,7 +2,7 @@
 - Ported to Geometry Dash version `2.2081`
   - Bumped Geode loader support to `v5.0.0`
 - Improved clipboard UI positioning calculations
-  - Removed manual repositions on vanilla inputs ()
+  - Removed manual repositions on vanilla inputs (some may look off, thanks rob)
 - Fix text not pasting on Geode text input nodes
 - Fix potential leaks
 - Internal optimizations
