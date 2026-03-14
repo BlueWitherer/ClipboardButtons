@@ -2,6 +2,8 @@
 
 #include <Geode/Geode.hpp>
 #include "Geode/loader/Loader.hpp"
+#include "Geode/platform/windows.hpp"
+#include "Geode/ui/TextInput.hpp"
 
 using namespace geode::prelude;
 
@@ -37,7 +39,7 @@ void ClipboardMenu::reload() {
                      auto const txt = input->getString();
                      if (txt.size() > 0) cb::write(txt);
 
-                     log::trace("copied text '{}'", txt);
+                     log::debug("copied text '{}'", txt);
                  } else {
                      log::error("Text input node missing to copy text from");
                  };
@@ -47,26 +49,34 @@ void ClipboardMenu::reload() {
                 [this](Button*) {
                     if (auto input = m_impl->inputNode.lock()) {
                         auto const cbTxt = cb::read();
+                        auto txt = m_impl->space ? fmt::format("{} ", str::trim(cbTxt)) : cbTxt;
 
-                        auto t = m_impl->space ? str::trim(cbTxt) : cbTxt;
-                        auto txt = m_impl->space ? fmt::format("{} ", t) : std::move(t);
+                        if (auto textInput = typeinfo_cast<TextInput*>(input->getParent())) {
+                            log::trace("parent is geode textinput, skipping filters...");
 
-                        txt = str::filter(txt, input->m_allowedChars);
+                            if (textInput->isRunning() && txt.size() > 0) textInput->setString(fmt::format("{}{}", textInput->getString(), txt));
+                            log::debug("pasted text '{}' as '{}'", cbTxt, txt);
+                        } else {
+                            txt = str::filter(txt, input->m_allowedChars);
 
-                        auto totalSize = static_cast<int>(txt.size() + input->getString().size());
-                        if (totalSize > input->m_maxLabelLength) {
-                            auto excess = totalSize - input->m_maxLabelLength;
-                            if (excess < txt.size()) {
-                                txt.erase(excess);
-                            } else {
-                                txt.clear();
+                            auto totalSize = static_cast<int>(txt.size() + input->getString().size());
+                            if (totalSize > input->m_maxLabelLength) {
+                                auto excess = totalSize - input->m_maxLabelLength;
+                                if (excess < txt.size()) {
+                                    log::trace("'{}' ({}) exceeds max input length of {}", txt, txt.size(), input->m_maxLabelLength);
+                                    txt.erase(excess);
+                                } else {
+                                    txt.clear();
+                                    log::trace("input is already full ({}/{})", input->getString().size(), input->m_maxLabelLength);
+                                };
+
+                                txt.shrink_to_fit();
+                                log::trace("new pasting text is '{}' ({}) from previously '{}' ({})", txt, txt.size(), cbTxt, cbTxt.size());
                             };
 
-                            txt.shrink_to_fit();
+                            if (input->isTouchEnabled() && txt.size() > 0) input->setString(fmt::format("{}{}", input->getString(), txt));
+                            log::debug("pasted text '{}' as '{}'", cbTxt, txt);
                         };
-
-                        if (input->isTouchEnabled() && txt.size() > 0) input->setString(fmt::format("{}{}", input->getString(), txt));
-                        log::trace("pasted text '{}'", txt);
                     } else {
                         log::error("text input node missing to paste text to");
                     };
@@ -84,21 +94,25 @@ void ClipboardMenu::reload() {
 
     queueInMainThread([this]() {
         if (auto input = m_impl->inputNode.lock()) {
+            auto ratio = m_impl->scale * (getScaledContentHeight() / input->getScaledContentHeight());
+            if (auto layout = typeinfo_cast<ColumnLayout*>(getLayout())) layout->setDefaultScaleLimits(0.f, ratio);
+
             if (auto field = input->m_textField) {
                 log::trace("Field area found for \"{}\"", input->getID());
 
-                auto anchor = field->getAnchorPoint().x;
                 auto width = input->getScaledContentWidth();
-
-                setPosition({width - (width * anchor), 0.f});
+                setPosition({width - (width * field->getAnchorPoint().x), field->getPositionY()});
             } else {
-                log::debug("No TextInput field found for \"{}\"", input->getID());
+                log::error("No input field found for \"{}\"", input->getID());
             };
+
+            setScale(ratio * 0.875f);
         } else {
             log::error("Text input node not found");
         };
 
         updateLayout();
+        log::trace("Reloaded menu UI");
     });
 };
 
@@ -108,17 +122,16 @@ bool ClipboardMenu::init(CCTextInputNode* input) {
     if (!CCNode::init()) return false;
 
     auto layout = ColumnLayout::create()
-                      ->setGap(1.25f * m_impl->scale)
+                      ->setGap(2.5f * m_impl->scale)
                       ->setAxisReverse(true)
-                      ->setAxisAlignment(AxisAlignment::Center)
-                      ->setDefaultScaleLimits(0.f, 0.325f * m_impl->scale);
+                      ->setAxisAlignment(AxisAlignment::Center);
+
+    if (auto input = m_impl->inputNode.lock()) (void)layout->setDefaultScaleLimits(0.f, getScaledContentHeight() / input->getScaledContentHeight());
 
     setID("menu"_spr);
-    setScale(m_impl->scale);
     setAnchorPoint({1, 0.5});
     setPosition({input->getScaledContentWidth() / 2.f, 0.f});
     setContentSize({0.f, input->getScaledContentHeight()});
-    setScale(getScaledContentHeight() / (input->getScaledContentHeight() * 0.875f));
     setLayout(layout);
 
     reload();
@@ -133,10 +146,8 @@ void ClipboardMenu::setButtonScale(float scale) {
     m_impl->scale = scale;
 
     if (auto layout = typeinfo_cast<ColumnLayout*>(getLayout())) {
-        layout->setGap(1.25f * scale);
-        if (auto input = m_impl->inputNode.lock()) layout->setDefaultScaleLimits(0.f, getScaledContentHeight() / (input->getScaledContentHeight() * 0.875f));
-
-        setLayout(layout);
+        (void)layout->setGap(1.25f * scale);
+        log::trace("Updated rescaled layout");
     };
 
     reload();

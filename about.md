@@ -15,6 +15,8 @@ This mod adds a copy and a paste button on every text input field you can find i
 ### Customization
 In <cg>this mod's settings</c>, you can find the options you need to <cy>re-scale the buttons</c> to your liking as well as <cy>adjust their opacity</c>, among others. Feel free to tweak these as you need!
 
+> ![ℹ️](frame:GJ_infoIcon_001.png?scale=0.5) <cj>*Clipboard buttons are disabled by default in the level editor **on desktop**. You can change this through the mod's settings.*</c>
+
 ---
 
 ![🗨️](frame:gj_discordIcon_001.png?scale=0.375) **If you need help, join my [support Discord server](https://www.dsc.gg/cheeseworks) and ask! :)**
