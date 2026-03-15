@@ -17,6 +17,11 @@ In <cg>this mod's settings</c>, you can find the options you need to <cy>re-scal
 
 > ![ℹ️](frame:GJ_infoIcon_001.png?scale=0.5) <cj>*Clipboard buttons are **disabled** by default in the level editor **on desktop**. You can change this through the mod's settings.*</c>
 
+### Notice
+This mod <co>depends on [FixThoseDangInputNodes!](mod:cheeseworks.fixinputnodesizes), a **lightweight mod that provides crucial fixes to vanilla UI**</c> to ensure proper clipboard UI positioning across the entire game.
+
+<mod:cheeseworks.fixinputnodesizes>
+
 ---
 
 ![🗨️](frame:gj_discordIcon_001.png?scale=0.375) **If you need help, join my [support Discord server](https://www.dsc.gg/cheeseworks) and ask! :)**

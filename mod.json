@@ -8,7 +8,7 @@
     },
     "id": "cheeseworks.clipboardbuttons",
     "name": "Easy Clipboard",
-    "version": "1.0.5",
+    "version": "1.0.6",
     "developers": [
         "Cheeseworks"
     ],
@@ -32,7 +32,8 @@
         }
     },
     "dependencies": {
-        "geode.node-ids": ">=1.22.0"
+        "geode.node-ids": ">=1.22.0",
+        "cheeseworks.fixinputnodesizes": ">=1.0.0"
     },
     "settings": {
         "disable-editor": {

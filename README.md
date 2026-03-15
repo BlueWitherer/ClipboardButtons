@@ -25,6 +25,9 @@ In this mod's settings, you can find the options you need to re-scale the button
 > [!NOTE]
 > *Clipboard buttons are **disabled** by default in the level editor **on desktop**. You can change this through the mod's settings.*
 
+### Notice
+This mod depends on [FixThoseDangInputNodes!](https://www.geode-sdk.org/mods/cheeseworks.fixinputnodesizes), a **lightweight mod that provides crucial fixes to vanilla UI** to ensure proper clipboard UI positioning across the entire game.
+
 ---
 
 ![preview](previews/preview-1.png)
