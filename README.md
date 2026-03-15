@@ -23,7 +23,7 @@ This mod adds a copy and a paste button on every text input field you can find i
 In this mod's settings, you can find the options you need to re-scale the buttons to your liking as well as adjust their opacity, among others. Feel free to tweak these as you need!
 
 > [!NOTE]
-> *Clipboard buttons are disabled by default in the level editor **on desktop**. You can change this through the mod's settings.*
+> *Clipboard buttons are **disabled** by default in the level editor **on desktop**. You can change this through the mod's settings.*
 
 ---
 
