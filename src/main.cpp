@@ -33,7 +33,7 @@ class $modify(ClipboardCCTextInputNode, CCTextInputNode) {
         f->clipboardMenu = ClipboardMenu::create(this);
         f->clipboardMenu->setVisible(showMenu());
 
-        addChild(f->clipboardMenu, 9);
+        addChild(f->clipboardMenu, m_textField->getZOrder() + 9);
         f->clipboardMenu->updateLayout();
 
         return true;
@@ -41,16 +41,22 @@ class $modify(ClipboardCCTextInputNode, CCTextInputNode) {
 
     void setTouchEnabled(bool value) {
         CCTextInputNode::setTouchEnabled(value);
-        if (m_fields->clipboardMenu) m_fields->clipboardMenu->setVisible(value && m_fields->always);
+
+        auto f = m_fields.self();
+        if (f->clipboardMenu) f->clipboardMenu->setVisible(value && f->always);
     };
 
     bool onTextFieldAttachWithIME(CCTextFieldTTF* tField) {
-        if (m_fields->clipboardMenu) m_fields->clipboardMenu->setVisible(isTouchEnabled());
+        auto f = m_fields.self();
+        if (f->clipboardMenu) f->clipboardMenu->setVisible(isTouchEnabled());
+
         return CCTextInputNode::onTextFieldAttachWithIME(tField);
     };
 
     bool onTextFieldDetachWithIME(CCTextFieldTTF* tField) {
-        if (m_fields->clipboardMenu) m_fields->clipboardMenu->setVisible(showMenu());
+        auto f = m_fields.self();
+        if (f->clipboardMenu) f->clipboardMenu->setVisible(showMenu());
+
         return CCTextInputNode::onTextFieldDetachWithIME(tField);
     };
 

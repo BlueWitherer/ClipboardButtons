@@ -146,7 +146,7 @@ void ClipboardMenu::setButtonScale(float scale) {
     m_impl->scale = scale;
 
     if (auto layout = typeinfo_cast<ColumnLayout*>(getLayout())) {
-        (void)layout->setGap(1.25f * scale);
+        (void)layout->setGap(2.5f * scale);
         log::trace("Updated rescaled layout");
     };
 

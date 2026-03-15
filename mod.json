@@ -32,8 +32,7 @@
         }
     },
     "dependencies": {
-        "geode.node-ids": ">=1.22.0",
-        "cheeseworks.fixinputnodesizes": ">=1.0.0"
+        "geode.node-ids": ">=1.22.0"
     },
     "settings": {
         "disable-editor": {
@@ -95,7 +94,7 @@
             "type": "int",
             "name": "Button Opacity",
             "description": "Adjust the opacity of the clipboard UI that appear on text input fields.",
-            "default": 150,
+            "default": 175,
             "min": 1,
             "max": 255,
             "control": {

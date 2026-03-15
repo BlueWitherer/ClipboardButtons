@@ -13,13 +13,13 @@ class $modify(CbHookEditLevelLayer, EditLevelLayer) {
         if (auto name = getChildByID("level-name-input")) {
             log::trace("node {} found", name->getID());
 
-            if (auto menu = typeinfo_cast<ClipboardMenu*>(name->getChildByID("menu"_spr))) menu->setButtonScale(menu->getButtonScale() * 0.875f);
+            if (auto menu = typeinfo_cast<ClipboardMenu*>(name->getChildByID("menu"_spr))) menu->setButtonScale(menu->getButtonScale() * 0.75f);
         };
 
         if (auto desc = getChildByID("description-input")) {
             log::trace("node {} found", desc->getID());
 
-            if (auto menu = typeinfo_cast<ClipboardMenu*>(desc->getChildByID("menu"_spr))) menu->setButtonScale(menu->getButtonScale() * 1.25f);
+            if (auto menu = typeinfo_cast<ClipboardMenu*>(desc->getChildByID("menu"_spr))) menu->setButtonScale(menu->getButtonScale() * 1.375f);
         };
 
         return true;
