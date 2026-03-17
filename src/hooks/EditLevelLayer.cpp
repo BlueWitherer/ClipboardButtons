@@ -1,5 +1,7 @@
 #include "../ClipboardMenu.hpp"
 
+#include <cheeseworks.fixinputnodesizes/include/API.hpp>
+
 #include <Geode/Geode.hpp>
 
 #include <Geode/modify/EditLevelLayer.hpp>
@@ -7,6 +9,8 @@
 using namespace geode::prelude;
 
 class $modify(CbHookEditLevelLayer, EditLevelLayer) {
+    FTDIN_HOOK_ALL(inputnodefix::layer::edit_level_layer);
+
     bool init(GJGameLevel* level) {
         if (!EditLevelLayer::init(level)) return false;
 

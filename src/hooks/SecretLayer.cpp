@@ -1,5 +1,7 @@
 #include "../ClipboardMenu.hpp"
 
+#include <cheeseworks.fixinputnodesizes/include/API.hpp>
+
 #include <Geode/Geode.hpp>
 
 #include <Geode/modify/SecretLayer.hpp>
@@ -10,6 +12,8 @@
 using namespace geode::prelude;
 
 class $modify(CbHookSecretLayer, SecretLayer) {
+    FTDIN_HOOK_ALL(inputnodefix::layer::secret_layers);
+
     bool init() {
         if (!SecretLayer::init()) return false;
 
@@ -20,6 +24,8 @@ class $modify(CbHookSecretLayer, SecretLayer) {
 };
 
 class $modify(CbHookSecretLayer2, SecretLayer2) {
+    FTDIN_HOOK_ALL(inputnodefix::layer::secret_layers);
+
     bool init() {
         if (!SecretLayer2::init()) return false;
 
@@ -30,6 +36,8 @@ class $modify(CbHookSecretLayer2, SecretLayer2) {
 };
 
 class $modify(CbHookSecretLayer4, SecretLayer4) {
+    FTDIN_HOOK_ALL(inputnodefix::layer::secret_layers);
+
     bool init() {
         if (!SecretLayer4::init()) return false;
 
@@ -40,6 +48,8 @@ class $modify(CbHookSecretLayer4, SecretLayer4) {
 };
 
 class $modify(CbHookSecretLayer5, SecretLayer5) {
+    FTDIN_HOOK_ALL(inputnodefix::layer::secret_layers);
+
     bool init() {
         if (!SecretLayer5::init()) return false;
 
