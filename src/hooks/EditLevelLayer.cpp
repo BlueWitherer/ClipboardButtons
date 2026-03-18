@@ -9,7 +9,7 @@
 using namespace geode::prelude;
 
 class $modify(CbHookEditLevelLayer, EditLevelLayer) {
-    FTDIN_HOOK_ALL(inputnodefix::layer::edit_level_layer);
+    INPUTNODEFIX_HOOK_ALL(inputnodefix::layer::edit_level_layer);
 
     bool init(GJGameLevel* level) {
         if (!EditLevelLayer::init(level)) return false;

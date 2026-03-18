@@ -9,7 +9,7 @@
 using namespace geode::prelude;
 
 class $modify(CbHookLevelSearchLayer, LevelSearchLayer) {
-    FTDIN_HOOK_ALL(inputnodefix::layer::level_search_layer);
+    INPUTNODEFIX_HOOK_ALL(inputnodefix::layer::level_search_layer);
 
     bool init(int type) {
         if (!LevelSearchLayer::init(type)) return false;
