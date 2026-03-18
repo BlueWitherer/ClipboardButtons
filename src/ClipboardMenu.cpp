@@ -89,28 +89,27 @@ void ClipboardMenu::reload() {
         addChild(btn);
     };
 
-    WeakRef<ClipboardMenu> weakThis = this;
-    queueInMainThread([weakThis]() {
-        if (auto self = weakThis.lock()) {
-            if (auto input = self->m_impl->inputNode.lock()) {
-                auto ratio = self->getButtonScale() * (self->getScaledContentHeight() / input->getScaledContentHeight());
-                if (auto layout = typeinfo_cast<ColumnLayout*>(self->getLayout())) layout->setDefaultScaleLimits(0.f, ratio);
+    queueInMainThread([self = WeakRef(this)]() {
+        if (auto s = self.lock()) {
+            if (auto input = s->m_impl->inputNode.lock()) {
+                auto ratio = s->getButtonScale() * (s->getScaledContentHeight() / input->getScaledContentHeight());
+                if (auto layout = typeinfo_cast<ColumnLayout*>(s->getLayout())) layout->setDefaultScaleLimits(0.f, ratio);
 
                 if (auto field = input->m_textField) {
                     log::trace("Field area found for \"{}\"", input->getID());
 
                     auto width = input->getScaledContentWidth();
-                    self->setPosition({width - (width * field->getAnchorPoint().x), field->getPositionY()});
+                    s->setPosition({width - (width * field->getAnchorPoint().x), field->getPositionY()});
                 } else {
                     log::error("No input field found for \"{}\"", input->getID());
                 };
 
-                self->setScale(ratio * 0.875f);
+                s->setScale(ratio * 0.875f);
             } else {
                 log::error("Text input node not found");
             };
 
-            self->updateLayout();
+            s->updateLayout();
             log::trace("Reloaded menu UI");
         };
     });
