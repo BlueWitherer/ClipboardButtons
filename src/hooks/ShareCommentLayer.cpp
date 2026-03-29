@@ -1,4 +1,4 @@
-#include "../ClipboardMenu.hpp"
+#include "../ClipboardMenu.h"
 
 #include <Geode/Geode.hpp>
 

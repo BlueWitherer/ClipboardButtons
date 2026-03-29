@@ -2,9 +2,7 @@
 
 #include <Geode/ui/Button.hpp>
 
-using namespace geode::prelude;
-
-class ClipboardMenu final : public CCNode {
+class ClipboardMenu final : public cocos2d::CCNode {
 private:
     class Impl;
     std::unique_ptr<Impl> m_impl;
@@ -12,7 +10,7 @@ private:
     struct ClipboardButton final {
         const char* id;
         const char* spriteFrame;
-        Button::ButtonCallback callback;
+        geode::Button::ButtonCallback callback;
     };
 
     void reload();

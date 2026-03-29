@@ -1,4 +1,4 @@
-#include "../ClipboardMenu.hpp"
+#include "../ClipboardMenu.h"
 
 #include <cheeseworks.fixinputnodesizes/include/API.hpp>
 

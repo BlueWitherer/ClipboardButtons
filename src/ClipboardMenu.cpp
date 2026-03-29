@@ -1,4 +1,4 @@
-#include "ClipboardMenu.hpp"
+#include "ClipboardMenu.h"
 
 #include <Geode/Geode.hpp>
 
@@ -31,7 +31,7 @@ void ClipboardMenu::reload() {
     auto clipboardBtns = std::to_array<ClipboardButton>(
         {{"copy-btn",
              "copy.png"_spr,
-             [this](Button*) {
+             [this](auto) {
                  if (auto input = m_impl->inputNode.lock()) {
                      auto const txt = input->getString();
                      if (txt.size() > 0) cb::write(txt);
@@ -43,7 +43,7 @@ void ClipboardMenu::reload() {
              }},
             {"paste-btn",
                 "paste.png"_spr,
-                [this](Button*) {
+                [this](auto) {
                     if (auto input = m_impl->inputNode.lock()) {
                         auto const cbTxt = cb::read();
                         auto txt = m_impl->space ? fmt::format("{} ", str::trim(cbTxt)) : cbTxt;
@@ -93,6 +93,7 @@ void ClipboardMenu::reload() {
         if (auto s = self.lock()) {
             if (auto input = s->m_impl->inputNode.lock()) {
                 auto ratio = s->getButtonScale() * (s->getScaledContentHeight() / input->getScaledContentHeight());
+
                 if (auto layout = typeinfo_cast<ColumnLayout*>(s->getLayout())) layout->setDefaultScaleLimits(0.f, ratio);
 
                 if (auto field = input->m_textField) {
@@ -123,9 +124,8 @@ bool ClipboardMenu::init(CCTextInputNode* input) {
     auto layout = ColumnLayout::create()
                       ->setGap(2.5f * m_impl->scale)
                       ->setAxisReverse(true)
-                      ->setAxisAlignment(AxisAlignment::Center);
-
-    if (auto input = m_impl->inputNode.lock()) (void)layout->setDefaultScaleLimits(0.f, getScaledContentHeight() / input->getScaledContentHeight());
+                      ->setAxisAlignment(AxisAlignment::Center)
+                      ->setDefaultScaleLimits(0.f, getScaledContentHeight() / input->getScaledContentHeight());
 
     setID("menu"_spr);
     setAnchorPoint({1, 0.5});
