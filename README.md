@@ -1,5 +1,5 @@
 # [<img src="logo.png" width="25" alt="The mod's logo." />](https://www.geode-sdk.org/mods/cheeseworks.clipboardbuttons) Easy Clipboard
-Add clipboard UI to every text input field.
+Add clipboard buttons to text input fields.
 
 ---
 
