@@ -1,5 +1,5 @@
-# ![📄](frame:geode.loader/file.png?scale=0.625) Easy Clipboard
-**Add clipboard buttons to text input fields.**
+# ![📄](frame:geode.loader/file.png?scale=0.625) EZPZ Clipboard
+**dude its so ez just press the buttons**
 
 *by [Cheeseworks](user:6408873)!*
 

@@ -7,12 +7,12 @@
         "ios": "2.2081"
     },
     "id": "cheeseworks.clipboardbuttons",
-    "name": "Easy Clipboard",
-    "version": "1.0.6",
+    "name": "EZPZ Clipboard",
+    "version": "1.0.7-prerelease",
     "developers": [
         "Cheeseworks"
     ],
-    "description": "Add clipboard buttons to text input fields.",
+    "description": "dude its so ez just press the buttons",
     "links": {
         "source": "https://github.com/BlueWitherer/ClipboardButtons",
         "homepage": "https://www.cheeseworks.gay/",

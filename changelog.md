@@ -1,3 +1,6 @@
+# v1.0.7-prerelease 
+- Happy April Fool's day!
+
 # v1.0.6 
 - Improve clipboard UI positioning with [FixThoseDangInputNodes!](https://geode-sdk.org/mods/cheeseworks.fixinputnodesizes)
 - Set default value for setting *`Button Opacity`* to `175`

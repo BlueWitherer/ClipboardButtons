@@ -1,4 +1,4 @@
-# [<img src="logo.png" width="25" alt="The mod's logo." />](https://www.geode-sdk.org/mods/cheeseworks.clipboardbuttons) Easy Clipboard
+# [<img src="logo.png" width="25" alt="The mod's logo." />](https://geode-sdk.org/mods/cheeseworks.clipboardbuttons) Easy Clipboard
 Add clipboard buttons to text input fields.
 
 ---
@@ -7,7 +7,7 @@ Add clipboard buttons to text input fields.
 
 > [![Version](https://img.shields.io/github/v/release/BlueWitherer/ClipboardButtons?include_prereleases&sort=semver&display_name=release&style=for-the-badge&logo=github&logoColor=ffffff&label=Version)](../../releases/) [![License](https://img.shields.io/github/license/BlueWitherer/ClipboardButtons?style=for-the-badge&logo=gnu&logoColor=ffffff&label=License)](LICENSE.md)
 >  
-> [![Downloads](https://img.shields.io/github/downloads/BlueWitherer/ClipboardButtons/total?style=for-the-badge&logo=geode&logoColor=ffffff&label=Downloads)](https://www.geode-sdk.org/mods/cheeseworks.clipboardbuttons)
+> [![Downloads](https://img.shields.io/github/downloads/BlueWitherer/ClipboardButtons/total?style=for-the-badge&logo=geode&logoColor=ffffff&label=Downloads)](https://geode-sdk.org/mods/cheeseworks.clipboardbuttons)
 
 > [!TIP]
 *This mod has settings you can utilize to customize your experience.*
@@ -26,7 +26,7 @@ In this mod's settings, you can find the options you need to re-scale the button
 > *Clipboard buttons are **disabled** by default in the level editor **on desktop**. You can change this through the mod's settings.*
 
 ### Notice
-This mod depends on [FixThoseDangInputNodes!](https://www.geode-sdk.org/mods/cheeseworks.fixinputnodesizes), a **lightweight mod that provides crucial fixes to vanilla UI** to ensure proper clipboard UI positioning across the entire game.
+This mod depends on [FixThoseDangInputNodes!](https://geode-sdk.org/mods/cheeseworks.fixinputnodesizes), a **lightweight mod that provides crucial fixes to vanilla UI** to ensure proper clipboard UI positioning across the entire game.
 
 ---
 
