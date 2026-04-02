@@ -1,5 +1,5 @@
-# v1.0.7-prerelease 
-- Happy April Fool's day!
+# v1.0.7 
+- ~~Happy April Fool's day!~~ ok playtime's over
 
 # v1.0.6 
 - Improve clipboard UI positioning with [FixThoseDangInputNodes!](https://geode-sdk.org/mods/cheeseworks.fixinputnodesizes)
