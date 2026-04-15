@@ -1,3 +1,6 @@
+# v1.0.8 
+- Fixed clipboard UI positioning in several pop-ups
+
 # v1.0.7 
 - ~~Happy April Fool's day!~~ ok playtime's over
 
